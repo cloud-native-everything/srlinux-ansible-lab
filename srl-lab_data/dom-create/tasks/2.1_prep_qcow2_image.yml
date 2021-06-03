@@ -1,0 +1,31 @@
+# Copying script to hypervisor and modify image
+
+- name: Check if the script disable-netmanager.sh exists and have permissions
+  stat:
+    path: /tmp/disable-netmanager.sh
+  register: st
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Copying script to hypervisor to remove NetworkManager
+  copy:
+    src: disable-netmanager.sh
+    dest: /tmp/disable-netmanager.sh
+    mode: 0755
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - st.stat.exists == False
+
+- name: Copying ifcfg-eth template
+  template: src=temp-ifcfg-eth.j2 backup=no dest=/tmp/temp-ifcfg-eth
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - st.stat.exists == False
+
+- name: Run the script over the image to remove NetworkManager
+  shell: "/tmp/disable-netmanager.sh {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2"
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+

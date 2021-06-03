@@ -1,0 +1,115 @@
+# Copy qcow2 image to target host
+
+- name: Creating image folder at remote server
+  file:
+    path: "{{ image_qcow2  | regex_replace('^(.+)/[^/]+$', '\\1') }}"
+    state: directory
+    mode: 0755
+  delegate_to: "{{ hypervisor }}"
+  when:
+    - hypervisor is defined
+
+- name: Checking in QCOW2 base image file is was already copied before trying resizing
+  stat:
+    path: "{{ image_qcow2 }}"
+  register: qcow2_resize
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+
+
+- name: Copy image from url to {{ image_qcow2 }}
+  get_url:
+    url: "{{ image_url }}"
+    dest: "{{ image_qcow2 }}"
+    mode: 0666
+  delegate_to: "{{ hypervisor }}"
+  when:
+    - hypervisor is defined
+    - qcow2_resize.stat.exists == False
+
+- name: Checking in VM image file is was already copied before
+  stat:
+    path: "{{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2"
+  register: qcow2_file
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Creates VM directory
+  file: path={{ images_path }}{{ inventory_hostname }} state=directory owner={{ libvirt.user }} group={{ libvirt.group }}
+  delegate_to: "{{ hypervisor }}"
+  when:
+    - hypervisor is defined
+    - qcow2_file.stat.exists == False
+
+- name: "Remote copy file to image server folder from remote_path: {{ image_qcow2 }} to remote_path: {{ images_path }} "
+  copy:
+    remote_src: true
+    src: "{{ image_qcow2 }}"
+    dest: "{{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2"
+    owner: "{{ libvirt.user }}"
+    group: "{{ libvirt.group }}"
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - qcow2_file.stat.exists == False
+  
+
+# Resize Image
+
+
+- name: Copy image from url to {{ image_qcow2 }} for resizing
+  get_url:
+    url: "{{ image_url }}"
+    dest: "{{ image_qcow2 }}"
+    owner: "{{ libvirt.user }}"
+    group: "{{ libvirt.group }}"
+    mode: 0666
+  delegate_to: "{{ hypervisor }}"
+  when:
+    - hypervisor is defined
+    - disk_GB is defined
+    - qcow2_resize.stat.exists == False
+
+
+#- name: Copy qcow2 image for resizing
+#  copy:
+#    src: "{{ image_qcow2 }}"
+#    dest: "{{ image_qcow2 }}"
+#    owner: "{{ libvirt.user }}"
+#    group: "{{ libvirt.group }}"
+#    mode: 0666
+#  delegate_to: "{{ hypervisor }}"
+#  when: 
+#    - hypervisor is defined
+#    - disk_GB is defined
+#    - qcow2_resize.stat.exists == False
+
+- name: Change user and group of the file to image base file
+  file: path={{ image_qcow2 }} owner={{ libvirt.user }} group={{ libvirt.group }}
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - disk_GB is defined
+
+- name: Preallocate image thru qemu-img
+  shell: qemu-img create -f qcow2 -o preallocation=metadata {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2  {{ disk_GB }}G
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - disk_GB is defined
+
+- name: Resize image thru virt-resize
+  shell: virt-resize --expand /dev/sda1 {{ image_qcow2 }}  {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - hypervisor is defined
+    - disk_GB is defined
+
+# Prepare Image removing NetworManager and creating ifcfg-eth0 file
+- name: Prepare Image removing NetworManager and creating ifcfg-eth0 file
+  include: 2.1_prep_qcow2_image.yml
+  when: 
+    - hypervisor is defined
+    - Is_NM_enabled is defined
+

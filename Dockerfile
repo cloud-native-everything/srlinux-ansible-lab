@@ -18,14 +18,9 @@ RUN pip install vspk
 # Generate user dev and his files
 RUN useradd dev
 RUN mkdir -p /home/dev/.ssh
-RUN mkdir -p /home/dev/images
-RUN mkdir -p /home/dev/pk-nuage-multi
 RUN mkdir -p /var/log/ansible
 RUN chown -R dev:dev /home/dev
 RUN chown -R dev:dev /var/log/ansible
-VOLUME /home/dev/pk-nuage-multi
-VOLUME /home/dev/.ssh
-VOLUME /var/log/ansible
 WORKDIR /home/dev
 ENV HOME /home/dev
 ADD vimrc /home/dev/.vimrc

@@ -1,0 +1,32 @@
+---
+
+# Check hypervisor
+- include: 1_check_hypervisor.yml
+  when: hypervisor is defined
+
+# Copy and Resize qcow2 image to target host
+- include: 2_copy_and_resize_qcow.yml
+  when:  hypervisor is defined
+
+# Cloud-init files section... Important: don't change the names of the files!
+- include: 3_cloud_init_files.yml
+  when: 
+    - hypervisor is defined
+    - No_cloud_init is undefined
+
+# Guestfish section... Important: don't change the names of the files!
+- include: 4_guestfish_system_files.yml
+  when: 
+    - hypervisor is defined
+    - Guestfish is defined
+
+# Define and create guest VMs
+- include: 5_define_and_create_vm.yml
+  when: hypervisor is defined
+
+#remove cloud_init media iso image
+- include: 6_cloud_init_files_remove.yml
+  when: 
+    - hypervisor is defined
+    - No_cloud_init is undefined
+

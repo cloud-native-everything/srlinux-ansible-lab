@@ -1,0 +1,13 @@
+# Cloud-init files section... Important: don't change the names of the files!
+- name: Copy temporary cloud_init files to image folder
+  template: src={{ item }}.j2 backup=no dest={{ images_path }}{{ inventory_hostname }}/{{ item }}
+  delegate_to: "{{ hypervisor }}"
+  with_items:
+    - user-data
+    - meta-data
+  when: hypervisor is defined
+
+- name: Create cdrom ISO with cloud_init user and metada
+  shell: pushd {{ images_path }}{{ inventory_hostname }} && genisoimage -output {{ inventory_hostname }}.{{ cdrom_iso }}  -volid cidata -joliet -r user-data meta-data &>> {{ inventory_hostname }}.log && popd
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined

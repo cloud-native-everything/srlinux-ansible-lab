@@ -1,0 +1,33 @@
+# Define guest VM
+
+- name: Copy temporary xml to image folder
+  template: src=nodes.xml.j2 backup=no dest={{ images_path }}{{ inventory_hostname }}/nodes.xml
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Define guest VM
+  virt: name={{ inventory_hostname }}
+        command=define
+        xml="{{ lookup('template', 'nodes.xml.j2') }}"
+  delegate_to: "{{ hypervisor }}"
+  when: 
+    - inventory_hostname not in virt_vms.list_vms
+    - hypervisor is defined
+
+# Start VM
+- name: Start guest VM
+  virt: name={{ inventory_hostname }} state=running
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+# Assert that VM is running
+- name: get guest info
+  virt: command=info
+  register: virt_info
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- assert: { that: "virt_info[inventory_hostname]['state'] == 'running'" }
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+

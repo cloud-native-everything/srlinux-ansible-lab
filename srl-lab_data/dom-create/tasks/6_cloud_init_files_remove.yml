@@ -1,0 +1,4 @@
+- name: Remove cdrom media
+  shell: pushd {{ images_path }}{{ inventory_hostname }} && virsh change-media {{ inventory_hostname }} hda --eject --config >> {{ inventory_hostname }}.log && popd
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined

@@ -1,0 +1,13 @@
+instance-id: {{ inventory_hostname }}
+local-hostname: {{ inventory_hostname }}
+network-interfaces: |
+{% for interface in interfaces %}
+  auto {{ interface.name }} 
+{% if interface.ip is defined %}
+  iface {{ interface.name }} inet static
+    address {{ interface.ip }}
+    netmask {{ interface.netmask }}
+{% else %}
+  iface {{ interface.name }} inet dhcp
+{% endif %}
+{% endfor %}

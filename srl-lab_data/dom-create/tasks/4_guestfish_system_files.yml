@@ -1,0 +1,55 @@
+# Configuring server thru guestfish instead cloud_init files
+
+- name: Creating ifcfg scripts for network interfaces
+  template: src=ifcfg-eth.j2 backup=no dest=/tmp/{{ inventory_hostname }}-ifcfg-{{ item.name }} 
+  with_items: "{{ interfaces }}"
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: run guestfish to set interfaces ifcfg scripts
+  command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-ifcfg-{{ item.name }} /etc/sysconfig/network-scripts/ifcfg-{{ item.name }}"
+  with_items: "{{ interfaces }}"
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+ 
+- name: Creating temporary resolv.conf file
+  template: src=resolv.conf.j2 backup=no dest=/tmp/{{ inventory_hostname }}-resolv.conf
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Uploading resolv.conf to image thru guestfish
+  command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-resolv.conf /etc/resolv.conf" 
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Creating temporary network system file
+  template: src=network.j2 backup=no dest=/tmp/{{ inventory_hostname }}-network
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Uploading network file to image thru guestfish
+  command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-network /etc/sysconfig/network" 
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Create the directory /root/.ssh for authorized_keys
+  command: guestfish -a {{ images_path }}/{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i mkdir-mode /root/.ssh 0700
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Set the owner and group for the /root/.ssh directory on the VSD image
+  command: guestfish -a {{ images_path }}/{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i chown 0 0 /root/.ssh
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Creating temporary authorized_keys file
+  template: src=authorized_keys.j2 backup=no dest=/tmp/{{ inventory_hostname }}-authorized_keys
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Uploading authorized file to image thru guestfish
+  command: "guestfish -a {{ images_path }}{{ inventory_hostname }}/{{ inventory_hostname }}.qcow2 -i upload /tmp/{{ inventory_hostname }}-authorized_keys /root/.ssh/authorized_keys" 
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+

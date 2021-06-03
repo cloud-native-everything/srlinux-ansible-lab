@@ -1,0 +1,20 @@
+# preparing kvm and checking current vms
+
+- name: Pull facts on hypervisor
+  action: setup
+  delegate_to: "{{ hypervisor }}"
+  remote_user: root
+  when: hypervisor is defined
+
+- name: List the Virtual Machine
+  virt: command=list_vms
+  register: virt_vms
+  delegate_to: "{{ hypervisor }}"
+  when: hypervisor is defined
+
+- name: Checking out if the libvirt domains are already defined ( true will fail this task )
+  fail: msg="The VM {{ inventory_hostname }} is already defined on this hypervisor."
+  when: inventory_hostname in virt_vms.list_vms
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
