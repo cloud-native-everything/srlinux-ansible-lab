@@ -1,0 +1,25 @@
+---
+# Creating tap interfaces nad bridges 
+#
+
+    - name: List the Virtual Machine
+      virt: command=list_vms
+      register: virt_vms
+    
+    - name: Destroy guest VM of k8s instances
+      virt: name={{ item.name }}
+            state=destroyed
+      with_items: "{{ k8s_inst }}"
+      when: item.name in virt_vms.list_vms
+
+    - name: UNdefine guest VM of k8s instances
+      virt: name={{ item.name }}
+            command=undefine
+      with_items: "{{ k8s_inst }}"
+      when: item.name in virt_vms.list_vms
+
+    - name: DELETE qcow2 file to image folder for k8s instances
+      file:
+        path: "{{ kvm_images_location }}/{{ item.name }}.qcow2"
+        state: absent
+      with_items: "{{ k8s_inst }}"

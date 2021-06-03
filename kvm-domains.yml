@@ -1,0 +1,33 @@
+---
+# Creating Domains
+#
+    - name: List the Virtual Machine
+      virt: command=list_vms
+      register: virt_vms
+
+    - name: Copy xml file to image folder for k8s instances
+      template: src=k8s-worker.xml.j2 backup=no dest={{ kvm_images_location }}/{{ item.name }}.xml
+      with_items: "{{ k8s_inst }}"
+      when: item.name not in virt_vms.list_vms
+
+    - name: Copy qcow2 file to image folder for k8s instances
+      copy:
+        remote_src: true
+        src: "{{ k8s_qcow2_image }}"
+        dest: "{{ kvm_images_location }}/{{ item.name }}.qcow2"
+        owner: qemu
+        group: qemu
+        force: no
+      with_items: "{{ k8s_inst }}"
+      when: item.name not in virt_vms.list_vms
+
+    - name: Define kvm domains for k8s instances
+      virt: command=define
+            xml="{{ lookup('template', 'k8s-worker.xml.j2') }}"
+      with_items: "{{ k8s_inst }}"
+      when: item.name not in virt_vms.list_vms
+    
+    - name: Start guest VM of k8s instances
+      virt: name={{ item.name }}
+            state=running
+      with_items: "{{ k8s_inst }}"

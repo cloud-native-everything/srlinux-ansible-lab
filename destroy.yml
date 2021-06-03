@@ -3,7 +3,9 @@
 # author: Mau
 # email: pinrojas@gmail.com
 # check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
-
+# June 2021
+#
+#
 - hosts: 10.5.0.104 
   gather_facts: no
   remote_user: root
@@ -16,39 +18,7 @@
 
   tasks:
 
-    
-    - name: grab ip link status
-      command: ip link
-      register: ip_link
-      changed_when: False
-
-    - name: destroy tap_bridge for k8s instances
-      command: brctl delbr {{ item.bridge }}
-      with_items: "{{ k8s_inst }}"
-      when:
-        - 'item.bridge in ip_link.stdout'
-
-    - name: grab ip link status
-      command: ip link
-      register: ip_link
-      changed_when: False
-
-    - name: set tap interface in virtual wire DOWN
-      command: ip link set dev {{ item.tap_iface1 }} down
-      with_items: "{{ k8s_inst }}"
-      when:
-        - 'item.tap_iface1 not in ip_link.stdout'
-
-    - name: set leaf interface connected to k8s in virtual wire DOWN
-      command: ip link set dev {{ item._iface1 }} down
-      with_items: "{{ k8s_inst }}"
-      when:
-        - 'item.iface1 not in ip_link.stdout' 
-
-    - name: delete virtual wire for every k8s instance
-      command: ip link del {{ item.tap_iface1 }} type veth peer name {{ item.iface1 }}
-      with_items: "{{ k8s_inst }}"
-      when:
-        - 'item.tap_iface1 not in ip_link.stdout'
-
-
+# Creating tap interfaces nad bridges 
+#
+#    - include: /srl-lab/destroy-tap_interfaces_and_bridges.yml
+    - include: /srl-lab/destroy-kvm-domains.yml 
