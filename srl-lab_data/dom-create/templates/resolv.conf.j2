@@ -1,7 +1,0 @@
-# Created by asible
-{% if dns is defined %}
-{% for server in dns.servers %}
-nameserver {{ server }}
-{% endfor %}
-domain {{ domain }}
-{% endif %}
