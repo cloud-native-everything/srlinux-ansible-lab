@@ -1,0 +1,4 @@
+zone "srl.nokialab.net" {
+    type master;
+    file "/etc/bind/zones/db.srl.nokialab.net";
+};

@@ -1,0 +1,47 @@
+
+  - name: check bind9 image was created previously
+    command: docker images bind9
+    register: docker_images
+    changed_when: False
+
+  - debug:
+      msg: "echo docker_images.stdout: {{ docker_images.stdout }}"
+
+  - name: Copying named.conf.options file for dns server
+    copy: 
+      src: '{{ item }}'
+      dest: "/tmp/{{ item }}"
+      force: no
+    with_items:
+      - 'named.conf.options'
+      - 'named.conf.local'
+      - 'db.srl.nokialab.net'
+      - 'Dockerfile.bind'
+    when: 
+      - "'bind9' not in docker_images.stdout"
+
+  - name: Build container images with data files
+    command: docker build -f /tmp/Dockerfile.bind -t bind9 /tmp
+    when: 
+      - '"bind9" not in docker_images.stdout'
+
+  - name: check if dns-server was previously created
+    command: docker ps --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: Create network 172.21.21.0/24 for dns and ntp service
+    command: docker network create --subnet=172.21.21.0/24 ntp-dns-net
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+
+  - name: Create container for dns-server container at 172.21.21.2
+    command: docker run -d --rm --name=dns-server --net=ntp-dns-net --ip=172.21.21.2 bind9
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+
+  - name: start bind service in dns-server
+    command: docker exec -d dns-server /etc/init.d/bind9 start
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+

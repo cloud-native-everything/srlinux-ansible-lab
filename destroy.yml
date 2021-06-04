@@ -20,5 +20,6 @@
 
 # Creating tap interfaces nad bridges 
 #
-#    - include: /srl-lab/destroy-tap_interfaces_and_bridges.yml
+#    - include: /srl-lab/destroy-dns-server.yml
     - include: /srl-lab/destroy-kvm-domains.yml 
+#    - include: /srl-lab/destroy-tap-interfaces-and-bridges.yml

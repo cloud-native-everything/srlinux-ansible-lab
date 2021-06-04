@@ -1,0 +1,6 @@
+FROM armhf/ubuntu:16.04
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ntp \
+    && apt-get clean -q \
+    && rm -Rf /var/lib/apt/lists/*
+ENTRYPOINT ["/usr/sbin/ntpd"]

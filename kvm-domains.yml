@@ -21,6 +21,38 @@
       with_items: "{{ k8s_inst }}"
       when: item.name not in virt_vms.list_vms
 
+# Copying script to hypervisor and modify image
+
+    - name: Check if the script disable-netmanager.sh exists and have permissions
+      command: ls /tmp
+      register: st
+      changed_when: False
+
+    - name: Copying script to hypervisor to remove NetworkManager
+      template:
+        src: disable-netmanager.sh.j2
+        dest: '/tmp/disable-netmanager-{{ item.name }}.sh'
+        mode: 0755
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
+
+    - name: Copying ifcfg-eth template
+      template: 
+        src: ifcfg-eth0.j2 
+        backup: no 
+        dest: "/tmp/ifcfg-eth0.{{ item.name }}"
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
+
+    - name: Run the script over the image to remove NetworkManager
+      shell: "/tmp/disable-netmanager-{{ item.name }}.sh {{ kvm_images_location }}/{{ item.name }}.qcow2"
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
+
+
     - name: Define kvm domains for k8s instances
       virt: command=define
             xml="{{ lookup('template', 'k8s-worker.xml.j2') }}"

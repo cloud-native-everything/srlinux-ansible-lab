@@ -1,0 +1,36 @@
+
+  - name: check if dns-server was previously created
+    command: docker ps --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: Stop container dns-server container
+    command: docker stop dns-server
+    when:
+      - '"dns-server" in docker_ps.stdout'
+
+  - name: check if dns-server is still there
+    command: docker ps --all --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: REMOVE container dns-server container
+    command: docker rm dns-server
+    when:
+      - '"dns-server" in docker_ps.stdout'
+
+  - name: REMOVE dns and ntp service NETWORK
+    command: docker network rm ntp-dns-net
+    when:
+      - '"dns-server" in docker_ps.stdout'
+
+  - name: check bind9 image was created previously
+    command: docker images bind9
+    register: docker_images
+    changed_when: False
+
+  - name: Destroy image bind9 
+    command: docker rmi bind9
+    when: 
+      - '"bind9" in docker_images.stdout'
+

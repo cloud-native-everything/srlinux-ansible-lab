@@ -20,5 +20,6 @@
 
 # Creating tap interfaces nad bridges 
 #
-    - include: /srl-lab/tap_interfaces_and_bridges.yml
-    - include: /srl-lab/kvm-domains.yml 
+#    - include: /srl-lab/tap-interfaces-and-bridges.yml
+    - include: /srl-lab/kvm-domains.yml
+#    - include: /srl-lab/dns-server.yml 
