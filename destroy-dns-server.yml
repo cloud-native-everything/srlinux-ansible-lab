@@ -19,10 +19,15 @@
     when:
       - '"dns-server" in docker_ps.stdout'
 
+  - name: Check ntp-dns-net network
+    shell: "docker network ls | awk '{ print $2 } '"
+    register: docker_net
+    changed_when: False
+
   - name: REMOVE dns and ntp service NETWORK
     command: docker network rm ntp-dns-net
     when:
-      - '"dns-server" in docker_ps.stdout'
+      - '"ntp-dns-net" in docker_net.stdout'
 
   - name: check bind9 image was created previously
     command: docker images bind9

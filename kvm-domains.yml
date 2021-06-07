@@ -10,6 +10,7 @@
       with_items: "{{ k8s_inst }}"
       when: item.name not in virt_vms.list_vms
 
+
     - name: Copy qcow2 file to image folder for k8s instances
       copy:
         remote_src: true
@@ -20,6 +21,39 @@
         force: no
       with_items: "{{ k8s_inst }}"
       when: item.name not in virt_vms.list_vms
+
+# Prepare image to grow root_fs later
+# CAUTION: Having been fully tested yet!
+# CAUTION: You have to execute 'xfs_growfs /' inside the VM when is running to complete process
+
+    - name: Check virtual size in Originak image
+      shell: "qemu-img info {{ k8s_qcow2_image }}  | grep 'virtual size' | awk '{print $3}'"
+      register: qemu_img
+      changed_when: False
+
+    - name: Copy qcow2 temporary file to /tmp
+      copy:
+        remote_src: true
+        src: "{{ k8s_qcow2_image }}"
+        dest: "/tmp/centos-resize-temp.qcow2"
+        owner: qemu
+        group: qemu
+        force: no
+      when:
+        - root_fs_size not in qemu_img.stdout
+
+    - name: Apply qemu-img resize to images
+      command: 'qemu-img resize {{ kvm_images_location }}/{{ item.name }}.qcow2 {{ root_fs_size }}'
+      with_items: "{{ k8s_inst }}"
+      when: 
+        - root_fs_size not in qemu_img.stdout
+
+    - name: Apply virt-resize to images
+      shell: 'LIBGUESTFS_BACKEND=direct virt-resize --expand /dev/sda1 /tmp/centos-resize-temp.qcow2 {{ kvm_images_location }}/{{ item.name }}.qcow2'
+      with_items: "{{ k8s_inst }}"
+      when: 
+        - root_fs_size not in qemu_img.stdout
+
 
 # Copying script to hypervisor and modify image
 
@@ -45,6 +79,18 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+
+    - name: Copying resolv.conf template
+      template:
+        src: resolv.conf.j2
+        backup: no
+        dest: /tmp/resolv.conf
+
+    - name: Copying network template
+      template:
+        src: network.j2
+        backup: no
+        dest: /tmp/network
 
     - name: Run the script over the image to remove NetworkManager
       shell: "/tmp/disable-netmanager-{{ item.name }}.sh {{ kvm_images_location }}/{{ item.name }}.qcow2"

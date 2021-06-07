@@ -1,0 +1,18 @@
+name: srl01
+
+topology:
+  kinds:
+    srl:
+      type: ixrd2
+      image: srlinux
+      license: license.key
+  nodes:
+    leaf1:
+      kind: srl
+    leaf2:
+      kind: srl
+
+  links:
+    # leaf1 <-> leaf2 connections
+    - endpoints: ["leaf1:e1-1", "leaf2:e1-1"]
+

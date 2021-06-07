@@ -3,20 +3,21 @@ ntp_server: '10.5.0.50'
 k8s_qcow2_image: "/home/qemu/centos-docker01-password.qcow2.orig"
 kvm_images_location: "/home/qemu"
 k8s_kvm_xml_template: "/root/srlinux-ansible-lab/templates/centos-docker01-password.xml.j2"
+root_fs_size: '28G'
 
 k8s_inst:
   - { name: worker-A1 ,
       bridge: br-srl01-leaf1 ,
-      iface1: e1-11 ,
-      tap_iface1: tap1-e1-11 ,
+      iface1: e1-10 ,
+      tap_iface1: tap1-e1-10 ,
       netns: clab-srl01-leaf1 ,
       eth0_ip: 172.20.20.20 ,
       eth0_prefix: 24
     }
   - { name: worker-A2 ,
       bridge: br-srl01-leaf2 ,
-      iface1: e1-11 ,
-      tap_iface1: tap2-e1-11 ,
+      iface1: e1-10 ,
+      tap_iface1: tap2-e1-10 ,
       netns: clab-srl01-leaf2 ,
       eth0_ip: 172.20.20.21 ,
       eth0_prefix: 24
