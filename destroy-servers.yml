@@ -1,0 +1,23 @@
+---
+# Create KVM domains for K8s cluster
+# author: Mau
+# email: pinrojas@gmail.com
+# check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
+# June 2021
+#
+#
+- hosts: 10.5.0.104 
+  gather_facts: no
+  remote_user: root
+
+
+  pre_tasks:
+    - include_vars: "/srl-lab/cfg/{{ cfg_option }}/global_vars.yml" 
+
+  tasks:
+
+# Creating tap interfaces nad bridges 
+#
+    - include: /srl-lab/servers/destroy-dns-server.yml
+    - include: /srl-lab/servers/destroy-kvm-domains.yml 
+    - include: /srl-lab/servers/destroy-tap-interfaces-and-bridges.yml

@@ -57,12 +57,12 @@ Now it's time to run the playbook and connect KVM domains of you K8s instances t
 I added a folder inside cfg to manage different configurations in case is required. You just need to point it with cfg_option
 
 ```
-ansible-playbook -e mgmt_bridge='br-6e41ac564147' -e cfg_option=srl01 -i hosts playbook.yml
+ansible-playbook -e mgmt_bridge='br-6e41ac564147' -e cfg_option=srl01 -i servers/hosts playbook-servers.yml
 
 ```
 
 # Destroy configuration
 
 ```
-ansible-playbook -e mgmt_bridge='br-6e41ac564147' -e  cfg_option=srl01 -i hosts destroy.yml
+ansible-playbook -e mgmt_bridge='br-6e41ac564147' -e  cfg_option=srl01 -i servers/hosts destroy-servers.yml
 ```

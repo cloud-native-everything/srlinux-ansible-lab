@@ -14,3 +14,7 @@ ns1.srl.nokialab.net.          IN      A      172.21.21.2
 
 workerA1.srl.nokialab.net.        IN      A      172.20.20.20
 workerA2.srl.nokialab.net.        IN      A      172.20.20.21
+ControlA.srl.nokialab.net.        IN      A      172.20.20.29
+workerB1.srl.nokialab.net.        IN      A      172.20.20.30
+workerB2.srl.nokialab.net.        IN      A      172.20.20.31
+ControlB.srl.nokialab.net.        IN      A      172.20.20.39
