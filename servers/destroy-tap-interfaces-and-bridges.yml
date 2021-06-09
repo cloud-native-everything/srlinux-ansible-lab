@@ -29,6 +29,12 @@
       changed_when: False
 
 
+    - name: TURN tap_bridge DOWN for k8s instances
+      command: ifconfig {{ item.bridge }} down
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.bridge in brctl_show.stdout'
+
     - name: DESTROY tap_bridge for k8s instances
       command: brctl delbr {{ item.bridge }}
       with_items: "{{ k8s_inst }}"
