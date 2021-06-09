@@ -42,6 +42,18 @@
         state: absent
       with_items: "{{ k8s_inst }}"
 
+    - name: DELETE ifcfg-eth1 files for k8s instances
+      file:
+        path: "/tmp/ifcfg-eth1.{{ item.name }}"
+        state: absent
+      with_items: "{{ k8s_inst }}"
+
+    - name: DELETE hostname files for k8s instances
+      file:
+        path: "/tmp/ifcfg-hostname.{{ item.name }}"
+        state: absent
+      with_items: "{{ k8s_inst }}"
+
     - name: DELETE resolv.conf and network files
       file:
         path: "{{ item }}"

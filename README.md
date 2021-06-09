@@ -13,8 +13,15 @@ sudo docker run -d -t -i --name srl-ansible -v ~/srlinux-ansible-lab:/srl-lab sr
 sudo docker exec -ti srl-ansible bash
 ```
 
-As soon as you are inside te container, you have to create you certificates and ssh-copy-id to the host that would be affected with the tasks
-Don't forget to modify the hosts inventory file
+As soon as you are inside te container, you have to create your own ssh keys and ssh-copy-id to the host that would be affected with the tasks
+
+```
+ssh-keygen -t rsa
+cp /root/.ssh/* .ssh/. #optional in case you want to test it manually
+ssh-copy-id root@10.99.99.1
+```
+
+Don't forget to modify the hosts inventory file (i.e. servers/hosts )
 
 # Preping
 IMPORTANT: If you havent installed containerlab in advance, stop right here. More details at https://containerlab.srlinux.dev/

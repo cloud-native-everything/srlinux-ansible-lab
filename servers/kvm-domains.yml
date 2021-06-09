@@ -71,11 +71,29 @@
       when:
         - 'item.name not in st.stdout' 
 
-    - name: Copying ifcfg-eth template
+    - name: Copying ifcfg-eth0 template
       template: 
         src: ifcfg-eth0.j2 
         backup: no 
         dest: "/tmp/ifcfg-eth0.{{ item.name }}"
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
+
+    - name: Copying ifcfg-eth1 template
+      template: 
+        src: ifcfg-eth1.j2 
+        backup: no 
+        dest: "/tmp/ifcfg-eth1.{{ item.name }}"
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
+
+    - name: Copying hostname template
+      template: 
+        src: hostname.j2 
+        backup: no 
+        dest: "/tmp/hostname.{{ item.name }}"
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 

@@ -6,7 +6,8 @@
 # June 2021
 #
 #
-- hosts: 10.5.0.104 
+#- hosts: 10.5.0.104 
+- hosts: baremetals
   gather_facts: no
   remote_user: root
 

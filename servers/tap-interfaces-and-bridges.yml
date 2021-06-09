@@ -43,6 +43,12 @@
       when:
         - 'item.bridge not in brctl_show.stdout'
 
+    - name: Turning tap_bridge up for k8s instances
+      command: ifconfig {{ item.bridge }} up
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.bridge not in brctl_show.stdout'
+
     - name: Grab bridge status
       command: brctl show
       register: brctl_show

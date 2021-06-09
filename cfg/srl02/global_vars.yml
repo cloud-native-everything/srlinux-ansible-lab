@@ -7,27 +7,33 @@ root_fs_size: '28G'
 
 k8s_inst:
   - { name: worker-A1 ,
-      bridge: br-srl01-leaf1 ,
+      bridge: br-srl02-leaf1 ,
       iface1: e1-10 ,
       tap_iface1: tap1-e1-10 ,
-      netns: clab-srl01-leaf1 ,
+      netns: clab-srl02-leaf1 ,
       eth0_ip: 172.20.20.20 ,
-      eth0_prefix: 24
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.101.2 ,
+      eth1_prefix: 24
     }
   - { name: worker-A2 ,
       bridge: br-srl02-leaf2 ,
       iface1: e1-10 ,
       tap_iface1: tap2-e1-10 ,
-      netns: clab-srl01-leaf2 ,
+      netns: clab-srl02-leaf2 ,
       eth0_ip: 172.20.20.21 ,
-      eth0_prefix: 24
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.102.2 ,
+      eth1_prefix: 24
     } 
   - { name: ControlA ,
-      bridge: br-srl03-leaf2 ,
+      bridge: br-srl02-leaf3 ,
       iface1: e1-10 ,
       tap_iface1: tap3-e1-10 ,
-      netns: clab-srl01-leaf3 ,
+      netns: clab-srl02-leaf3 ,
       eth0_ip: 172.20.20.29 ,
-      eth0_prefix: 24
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.103.2 ,
+      eth1_prefix: 24
     } 
       
