@@ -333,4 +333,124 @@ commit stay
 commit save
 ```
 
+# Check neighbors: 
+```
+show system lldp neighbor
+```
 
+# Routing settings
+
+## Routing settings in Leaf1
+
+
+```
+enter candidate
+/network-instance default
+static-routes {
+        route 192.168.201.0/30 {
+            admin-state enable
+            metric 1
+            preference 5
+            next-hop-group NHG-leaf-2
+        }
+    }
+    next-hop-groups {
+        group NHG-leaf-2 {
+            admin-state enable
+            nexthop 1 {
+                ip-address 10.1.1.0
+                admin-state enable
+                resolve true
+            }
+            nexthop 2 {
+                ip-address 10.1.2.0
+                admin-state enable
+                resolve true
+            }
+        }
+    }
+
+/network-instance default
+protocols bgp {
+            autonomous-system 65001
+            router-id 1.1.1.1
+            group spines {
+                peer-as 64999
+                failure-detection {
+                    enable-bfd true
+                    fast-failover true
+                }
+                timers {
+                    minimum-advertisement-interval 1
+                }
+            }
+            ipv4-unicast {
+                multipath {
+                    max-paths-level-1 2
+                    max-paths-level-2 2
+                }
+            }
+            neighbor 10.1.1.0 {
+                export-policy export-hosts
+                peer-group spines
+            }
+            neighbor 10.1.2.0 {
+                export-policy export-hosts
+                peer-group spines
+            }
+            route-advertisement {
+                rapid-withdrawal true
+            }
+        }
+/routing-policy
+prefix-set hosts {
+        prefix 192.168.101.0/24 mask-length-range exact {
+        }
+    }
+    community-set no-export {
+        member [
+            no-export
+        ]
+    }
+    policy export-hosts {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                prefix-set hosts
+            }
+            action {
+                accept {
+                }
+            }
+        }
+        statement 20 {
+            action {
+                accept {
+                    bgp {
+                        communities {
+                            add no-export
+                        }
+                    }
+                }
+            }
+        }
+    }
+/bfd
+    subinterface ethernet-1/1.0 {
+        admin-state enable
+    }
+    subinterface ethernet-1/2.0 {
+        admin-state enable
+    }
+/network-instance default protocols bgp group spines
+    failure-detection {
+        enable-bfd true
+        fast-failover true
+    }
+/
+commit stay
+commit save
+```
