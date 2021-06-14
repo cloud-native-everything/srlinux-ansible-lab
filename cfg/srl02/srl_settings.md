@@ -338,43 +338,20 @@ commit save
 show system lldp neighbor
 ```
 
-# Routing settings
+# BGP routing settings
 
-## Routing settings in Leaf1
+## BGP routing settings in Leaf1
 
 
 ```
 enter candidate
 /network-instance default
-static-routes {
-        route 192.168.201.0/30 {
-            admin-state enable
-            metric 1
-            preference 5
-            next-hop-group NHG-leaf-2
-        }
-    }
-    next-hop-groups {
-        group NHG-leaf-2 {
-            admin-state enable
-            nexthop 1 {
-                ip-address 10.1.1.0
-                admin-state enable
-                resolve true
-            }
-            nexthop 2 {
-                ip-address 10.1.2.0
-                admin-state enable
-                resolve true
-            }
-        }
-    }
-
-/network-instance default
 protocols bgp {
             autonomous-system 65001
             router-id 1.1.1.1
             group spines {
+                export-policy export-hosts
+                import-policy pass-all
                 peer-as 64999
                 failure-detection {
                     enable-bfd true
@@ -384,33 +361,34 @@ protocols bgp {
                     minimum-advertisement-interval 1
                 }
             }
-            ipv4-unicast {
-                multipath {
-                    max-paths-level-1 2
-                    max-paths-level-2 2
-                }
-            }
             neighbor 10.1.1.0 {
-                export-policy export-hosts
                 peer-group spines
             }
-            neighbor 10.1.2.0 {
-                export-policy export-hosts
+            neighbor 10.2.1.0 {
                 peer-group spines
             }
             route-advertisement {
                 rapid-withdrawal true
             }
         }
+/bfd
+    subinterface ethernet-1/1.0 {
+        admin-state enable
+    }
+    subinterface ethernet-1/2.0 {
+        admin-state enable
+    }
+/network-instance default protocols bgp group spines
+    failure-detection {
+        enable-bfd true
+        fast-failover true
+    }
 /routing-policy
-prefix-set hosts {
+    prefix-set hosts {
+        prefix 1.1.1.1/32 mask-length-range exact {
+        }
         prefix 192.168.101.0/24 mask-length-range exact {
         }
-    }
-    community-set no-export {
-        member [
-            no-export
-        ]
     }
     policy export-hosts {
         default-action {
@@ -426,18 +404,58 @@ prefix-set hosts {
                 }
             }
         }
-        statement 20 {
+    }
+    policy pass-all {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                protocol bgp
+            }
             action {
                 accept {
-                    bgp {
-                        communities {
-                            add no-export
-                        }
-                    }
                 }
             }
         }
     }
+/
+commit stay
+commit save
+```
+
+## BGP routing settings in Leaf1
+
+
+```
+enter candidate
+/network-instance default
+protocols bgp {
+            autonomous-system 65002
+            router-id 1.1.1.2
+            group spines {
+                export-policy export-hosts
+                import-policy pass-all
+                peer-as 64999
+                failure-detection {
+                    enable-bfd true
+                    fast-failover true
+                }
+                timers {
+                    minimum-advertisement-interval 1
+                }
+            }
+            neighbor 10.1.2.0 {
+                peer-group spines
+            }
+            neighbor 10.2.2.0 {
+                peer-group spines
+            }
+            route-advertisement {
+                rapid-withdrawal true
+            }
+        }
 /bfd
     subinterface ethernet-1/1.0 {
         admin-state enable
@@ -449,6 +467,319 @@ prefix-set hosts {
     failure-detection {
         enable-bfd true
         fast-failover true
+    }
+/routing-policy
+    prefix-set hosts {
+        prefix 1.1.1.2/32 mask-length-range exact {
+        }
+        prefix 192.168.102.0/24 mask-length-range exact {
+        }
+    }
+    policy export-hosts {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                prefix-set hosts
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+    policy pass-all {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                protocol bgp
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+/
+commit stay
+commit save
+```
+
+
+## BGP routing settings in Leaf3
+
+
+```
+enter candidate
+/network-instance default
+protocols bgp {
+            autonomous-system 65003
+            router-id 1.1.1.3
+            group spines {
+                export-policy export-hosts
+                import-policy pass-all
+                peer-as 64999
+                failure-detection {
+                    enable-bfd true
+                    fast-failover true
+                }
+                timers {
+                    minimum-advertisement-interval 1
+                }
+            }
+            neighbor 10.1.3.0 {
+                peer-group spines
+            }
+            neighbor 10.2.3.0 {
+                peer-group spines
+            }
+            route-advertisement {
+                rapid-withdrawal true
+            }
+        }
+/bfd
+    subinterface ethernet-1/1.0 {
+        admin-state enable
+    }
+    subinterface ethernet-1/2.0 {
+        admin-state enable
+    }
+/network-instance default protocols bgp group spines
+    failure-detection {
+        enable-bfd true
+        fast-failover true
+    }
+/routing-policy
+    prefix-set hosts {
+        prefix 1.1.1.3/32 mask-length-range exact {
+        }
+        prefix 192.168.103.0/24 mask-length-range exact {
+        }
+    }
+    policy export-hosts {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                prefix-set hosts
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+    policy pass-all {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                protocol bgp
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+/
+commit stay
+commit save
+```
+
+## bgp routing settings spine1
+
+
+```
+enter candidate
+/network-instance default protocols bgp
+    autonomous-system 64999
+    router-id 1.1.1.11
+    group leaf {
+        export-policy underlay
+        import-policy pass-all
+        failure-detection {
+            enable-bfd true
+            fast-failover true
+        }
+        timers {
+            minimum-advertisement-interval 1
+        }
+    }
+    group spines {
+        failure-detection {
+            enable-bfd true
+            fast-failover true
+        }
+    }
+    neighbor 10.1.1.1 {
+        peer-as 65001
+        peer-group leaf
+    }
+    neighbor 10.1.2.1 {
+        peer-as 65002
+        peer-group leaf
+    }
+    neighbor 10.1.3.1 {
+        peer-as 65003
+        peer-group leaf
+    }
+    neighbor 10.2.1.1 {
+        peer-as 65001
+        peer-group leaf
+    }
+    neighbor 10.2.2.1 {
+        peer-as 65002
+        peer-group leaf
+    }
+    neighbor 10.2.3.1 {
+        peer-as 65003
+        peer-group leaf
+    }
+    route-advertisement {
+        rapid-withdrawal true
+    }
+/routing-policy
+    prefix-set undelay {
+        prefix 1.1.1.11/32 mask-length-range exact {
+        }
+        prefix 192.168.0.0/16 mask-length-range 16..24 {
+        }
+        prefix 10.1.0.0/22 mask-length-range 22..31 {
+        }
+        prefix 10.2.0.0/22 mask-length-range 22..31 {
+        }
+    }
+    policy pass-all {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                protocol bgp
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+    policy underlay {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                prefix-set undelay
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+/
+commit stay
+commit save
+```
+
+## bgp routing settings spine2
+
+
+```
+enter candidate
+/network-instance default protocols bgp
+    autonomous-system 64999
+    router-id 1.1.1.12
+    group leaf {
+        export-policy underlay
+        import-policy pass-all
+        failure-detection {
+            enable-bfd true
+            fast-failover true
+        }
+        timers {
+            minimum-advertisement-interval 1
+        }
+    }
+    neighbor 10.1.1.1 {
+        peer-as 65001
+        peer-group leaf
+    }
+    neighbor 10.1.2.1 {
+        peer-as 65002
+        peer-group leaf
+    }
+    neighbor 10.1.3.1 {
+        peer-as 65003
+        peer-group leaf
+    }
+    neighbor 10.2.1.1 {
+        peer-as 65001
+        peer-group leaf
+    }
+    neighbor 10.2.2.1 {
+        peer-as 65002
+        peer-group leaf
+    }
+    neighbor 10.2.3.1 {
+        peer-as 65003
+        peer-group leaf
+    }
+    route-advertisement {
+        rapid-withdrawal true
+    }
+/routing-policy
+    prefix-set undelay {
+        prefix 1.1.1.12/32 mask-length-range exact {
+        }
+        prefix 192.168.0.0/16 mask-length-range 16..24 {
+        }
+        prefix 10.1.0.0/22 mask-length-range 22..31 {
+        }
+        prefix 10.2.0.0/22 mask-length-range 22..31 {
+        }
+    }
+    policy pass-all {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                protocol bgp
+            }
+            action {
+                accept {
+                }
+            }
+        }
+    }
+    policy underlay {
+        default-action {
+            reject {
+            }
+        }
+        statement 10 {
+            match {
+                prefix-set undelay
+            }
+            action {
+                accept {
+                }
+            }
+        }
     }
 /
 commit stay
