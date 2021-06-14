@@ -50,15 +50,20 @@
 
     - name: DELETE hostname files for k8s instances
       file:
-        path: "/tmp/ifcfg-hostname.{{ item.name }}"
+        path: "/tmp/hostname.{{ item.name }}"
         state: absent
       with_items: "{{ k8s_inst }}"
 
-    - name: DELETE resolv.conf and network files
+    - name: DELETE network files for k8s instances
+      file:
+        path: "/tmp/network.{{ item.name }}"
+        state: absent
+      with_items: "{{ k8s_inst }}"
+
+    - name: DELETE resolv.conf files
       file:
         path: "{{ item }}"
         state: absent
       with_items:
         - '/tmp/resolv.conf'
-        - '/tmp/network'
 

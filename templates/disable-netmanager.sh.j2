@@ -5,4 +5,4 @@ guestfish -a $1 -i upload /tmp/ifcfg-eth0.{{ item.name }} /etc/sysconfig/network
 guestfish -a $1 -i upload /tmp/ifcfg-eth1.{{ item.name }} /etc/sysconfig/network-scripts/ifcfg-eth1
 guestfish -a $1 -i upload /tmp/resolv.conf /etc/resolv.conf
 guestfish -a $1 -i upload /tmp/hostname.{{ item.name }} /etc/hostname
-guestfish -a $1 -i upload /tmp/network /etc/sysconfig/network
+guestfish -a $1 -i upload /tmp/network.{{ item.name }} /etc/sysconfig/network

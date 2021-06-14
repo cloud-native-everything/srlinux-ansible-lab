@@ -108,7 +108,10 @@
       template:
         src: network.j2
         backup: no
-        dest: /tmp/network
+        dest: /tmp/network.{{ item.name }}
+      with_items: "{{ k8s_inst }}"
+      when:
+        - 'item.name not in st.stdout' 
 
     - name: Run the script over the image to remove NetworkManager
       shell: "/tmp/disable-netmanager-{{ item.name }}.sh {{ kvm_images_location }}/{{ item.name }}.qcow2"

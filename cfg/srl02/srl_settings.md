@@ -425,7 +425,7 @@ commit stay
 commit save
 ```
 
-## BGP routing settings in Leaf1
+## BGP routing settings in Leaf2
 
 
 ```
@@ -650,7 +650,7 @@ enter candidate
     }
 /routing-policy
     prefix-set undelay {
-        prefix 1.1.1.11/32 mask-length-range exact {
+        prefix 1.1.1.0/28 mask-length-range 28..32 {
         }
         prefix 192.168.0.0/16 mask-length-range 16..24 {
         }
@@ -742,7 +742,7 @@ enter candidate
     }
 /routing-policy
     prefix-set undelay {
-        prefix 1.1.1.12/32 mask-length-range exact {
+        prefix 1.1.1.0/28 mask-length-range 28..32 {
         }
         prefix 192.168.0.0/16 mask-length-range 16..24 {
         }

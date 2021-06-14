@@ -30,18 +30,18 @@
     register: docker_ps
     changed_when: False
 
-  - name: Check ntp-dns-net network
-    shell: "docker network ls | awk '{ print $2 } '"
-    register: docker_net
-    changed_when: False
+#  - name: Check ntp-dns-net network
+#    shell: "docker network ls | awk '{ print $2 } '"
+#    register: docker_net
+#    changed_when: False
 
-  - name: Create network 172.21.21.0/24 for dns and ntp service
-    command: docker network create --subnet=172.21.21.0/24 ntp-dns-net
-    when:
-      - '"ntp-dns-net" not in docker_net.stdout'
+#  - name: Create network 172.21.21.0/24 for dns and ntp service
+#    command: docker network create --subnet=172.21.21.0/24 ntp-dns-net
+#    when:
+#      - '"ntp-dns-net" not in docker_net.stdout'
 
   - name: Create container for dns-server container at 172.21.21.2
-    command: docker run -d --rm --name=dns-server --net=ntp-dns-net --ip=172.21.21.2 bind9
+    command: docker run -d --rm --name=dns-server --net=clab --ip=172.20.20.254 bind9
     when:
       - '"dns-server" not in docker_ps.stdout'
 

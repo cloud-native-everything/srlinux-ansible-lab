@@ -16,8 +16,9 @@ sudo docker exec -ti srl-ansible bash
 As soon as you are inside te container, you have to create your own ssh keys and ssh-copy-id to the host that would be affected with the tasks
 
 ```
+cd
 ssh-keygen -t rsa
-cp /root/.ssh/* .ssh/. #optional in case you want to test it manually
+cp /root/.ssh/* .ssh/. 
 ssh-copy-id root@10.99.99.1
 ```
 
@@ -28,6 +29,8 @@ IMPORTANT: If you havent installed containerlab in advance, stop right here. Mor
 
 Example:
 ```
+## Delete previous configuration files
+[root@baremetal clab-quickstart]# rm -rf ./clab-srl01
 [root@baremetal clab-quickstart]# containerlab deploy --topo ~/srlinux-ansible-lab/cfg/srl01/srl01.clab.yml
 INFO[0000] Parsing & checking topology file: srl01.clab.yml
 INFO[0000] Creating lab directory: /root/clab-quickstart/clab-srl01
