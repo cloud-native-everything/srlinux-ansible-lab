@@ -1,0 +1,43 @@
+---
+# Destroy  ethernet-1/10 to leaf
+# author: Mau
+# email: pinrojas@gmail.com
+# check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
+# June 2021
+#
+#
+- hosts: baremetals
+  gather_facts: no
+  remote_user: root
+
+  tasks:
+
+    - name: get list of srl leaf instances
+      shell: "ip netns | grep leaf | awk '{print $1}'"
+      register: leaf_inst
+      changed_when: False
+
+    - name: DELETE interface ethernet-1/10 to mac-vrf1
+      command: 
+        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --delete /network-instance\[name\=mac-vrf1\]/interface\[name\=ethernet-1/10.0\] 
+        chdir: '/tmp'
+      register: gnmic_out
+      with_items: "{{ leaf_inst.stdout_lines }}"
+
+    - name: DELETE interface ethernet-1/10 to leaf
+      command: 
+        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --delete /interface\[name\=ethernet-1/10\]
+        chdir: '/tmp'
+      register: gnmic_out
+      with_items: "{{ leaf_inst.stdout_lines }}"
+
+    - name: DELETE JSON and CERT files
+      file:
+        path: "/tmp/{{ item }}"
+        state: absent
+      with_items: 
+        - 'client.crt'
+        - 'client_key.pem'
+        - 'rootCA.crt' 
+        - 'mac-vrf1-add-interface-e10.json'
+        - 'ethernet-10.json'

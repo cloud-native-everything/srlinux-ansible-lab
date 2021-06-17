@@ -1,0 +1,9 @@
+[nokia]
+172.20.20.4 ansible_user=admin ansible_password=admin
+
+[nokia:vars]
+ansible_root_certificates_file=/srl-lab/certs/certs/rootCA.crt
+ansible_port=57400
+ansible_connection=nokia.grpc.gnmi
+ansible_gnmi_encoding=JSON-IETF
+ansible_grpc_channel_options={'grpc.ssl_target_name_override': 'localhost'}

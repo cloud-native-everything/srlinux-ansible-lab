@@ -1,0 +1,410 @@
+[
+  {
+    "timestamp": 1623947755895834648,
+    "time": "2021-06-17T11:35:55.895834648-05:00",
+    "updates": [
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]",
+        "values": {
+          "network-instance/protocols/bgp/group": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/admin-state",
+        "values": {
+          "network-instance/protocols/bgp/group/admin-state": "enable"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/under-maintenance",
+        "values": {
+          "network-instance/protocols/bgp/group/under-maintenance": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/maintenance-group",
+        "values": {
+          "network-instance/protocols/bgp/group/maintenance-group": ""
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/export-policy",
+        "values": {
+          "network-instance/protocols/bgp/group/export-policy": "export-all"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/import-policy",
+        "values": {
+          "network-instance/protocols/bgp/group/import-policy": "import-all"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/local-preference",
+        "values": {
+          "network-instance/protocols/bgp/group/local-preference": "100"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/next-hop-self",
+        "values": {
+          "network-instance/protocols/bgp/group/next-hop-self": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/peer-as",
+        "values": {
+          "network-instance/protocols/bgp/group/peer-as": "64999"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/allow-own-as",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/allow-own-as": "0"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/replace-peer-as",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/replace-peer-as": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/remove-private-as",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/remove-private-as": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/remove-private-as/mode",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/remove-private-as/mode": "disabled"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/remove-private-as/leading-only",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/remove-private-as/leading-only": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/as-path-options/remove-private-as/ignore-peer-as",
+        "values": {
+          "network-instance/protocols/bgp/group/as-path-options/remove-private-as/ignore-peer-as": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/failure-detection",
+        "values": {
+          "network-instance/protocols/bgp/group/failure-detection": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/failure-detection/enable-bfd",
+        "values": {
+          "network-instance/protocols/bgp/group/failure-detection/enable-bfd": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/failure-detection/fast-failover",
+        "values": {
+          "network-instance/protocols/bgp/group/failure-detection/fast-failover": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/graceful-restart",
+        "values": {
+          "network-instance/protocols/bgp/group/graceful-restart": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/graceful-restart/admin-state",
+        "values": {
+          "network-instance/protocols/bgp/group/graceful-restart/admin-state": "disable"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/graceful-restart/stale-routes-time",
+        "values": {
+          "network-instance/protocols/bgp/group/graceful-restart/stale-routes-time": "360"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/admin-state",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/admin-state": "enable"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/advertise-ipv6-next-hops",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/advertise-ipv6-next-hops": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/receive-ipv6-next-hops",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/receive-ipv6-next-hops": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/prefix-limit",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/prefix-limit": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/prefix-limit/max-received-routes",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/prefix-limit/max-received-routes": "4294967295"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv4-unicast/prefix-limit/warning-threshold-pct",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv4-unicast/prefix-limit/warning-threshold-pct": "90"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv6-unicast",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv6-unicast": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv6-unicast/admin-state",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv6-unicast/admin-state": "disable"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv6-unicast/prefix-limit",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv6-unicast/prefix-limit": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv6-unicast/prefix-limit/max-received-routes",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv6-unicast/prefix-limit/max-received-routes": "4294967295"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/ipv6-unicast/prefix-limit/warning-threshold-pct",
+        "values": {
+          "network-instance/protocols/bgp/group/ipv6-unicast/prefix-limit/warning-threshold-pct": "90"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/evpn",
+        "values": {
+          "network-instance/protocols/bgp/group/evpn": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/evpn/admin-state",
+        "values": {
+          "network-instance/protocols/bgp/group/evpn/admin-state": "disable"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/evpn/advertise-ipv6-next-hops",
+        "values": {
+          "network-instance/protocols/bgp/group/evpn/advertise-ipv6-next-hops": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/evpn/prefix-limit",
+        "values": {
+          "network-instance/protocols/bgp/group/evpn/prefix-limit": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/evpn/prefix-limit/warning-threshold-pct",
+        "values": {
+          "network-instance/protocols/bgp/group/evpn/prefix-limit/warning-threshold-pct": "90"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/local-as[as-number=65001]",
+        "values": {
+          "network-instance/protocols/bgp/group/local-as": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/local-as[as-number=65001]/prepend-global-as",
+        "values": {
+          "network-instance/protocols/bgp/group/local-as/prepend-global-as": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/local-as[as-number=65001]/prepend-local-as",
+        "values": {
+          "network-instance/protocols/bgp/group/local-as/prepend-local-as": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/route-reflector",
+        "values": {
+          "network-instance/protocols/bgp/group/route-reflector": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/route-reflector/client",
+        "values": {
+          "network-instance/protocols/bgp/group/route-reflector/client": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-community",
+        "values": {
+          "network-instance/protocols/bgp/group/send-community": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-community/standard",
+        "values": {
+          "network-instance/protocols/bgp/group/send-community/standard": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-community/large",
+        "values": {
+          "network-instance/protocols/bgp/group/send-community/large": "true"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-default-route",
+        "values": {
+          "network-instance/protocols/bgp/group/send-default-route": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-default-route/ipv4-unicast",
+        "values": {
+          "network-instance/protocols/bgp/group/send-default-route/ipv4-unicast": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/send-default-route/ipv6-unicast",
+        "values": {
+          "network-instance/protocols/bgp/group/send-default-route/ipv6-unicast": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/timers",
+        "values": {
+          "network-instance/protocols/bgp/group/timers": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/timers/connect-retry",
+        "values": {
+          "network-instance/protocols/bgp/group/timers/connect-retry": "5"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/timers/hold-time",
+        "values": {
+          "network-instance/protocols/bgp/group/timers/hold-time": "5"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/timers/keepalive-interval",
+        "values": {
+          "network-instance/protocols/bgp/group/timers/keepalive-interval": "2"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/timers/minimum-advertisement-interval",
+        "values": {
+          "network-instance/protocols/bgp/group/timers/minimum-advertisement-interval": "2"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/transport",
+        "values": {
+          "network-instance/protocols/bgp/group/transport": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/transport/tcp-mss",
+        "values": {
+          "network-instance/protocols/bgp/group/transport/tcp-mss": "1024"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/transport/passive-mode",
+        "values": {
+          "network-instance/protocols/bgp/group/transport/passive-mode": "false"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics": null
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/total-paths",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/total-paths": "39"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/total-prefixes",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/total-prefixes": "18"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/path-memory",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/path-memory": "15112"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/total-received-routes",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/total-received-routes": "18"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/total-active-routes",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/total-active-routes": "4"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/total-peers",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/total-peers": "2"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/up-peers",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/up-peers": "2"
+        }
+      },
+      {
+        "Path": "network-instance[name=default]/protocols/bgp/group[group-name=eBGP-underlay]/statistics/disabled-peers",
+        "values": {
+          "network-instance/protocols/bgp/group/statistics/disabled-peers": "0"
+        }
+      }
+    ]
+  }
+]

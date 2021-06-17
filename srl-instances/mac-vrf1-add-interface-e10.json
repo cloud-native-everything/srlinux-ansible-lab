@@ -1,0 +1,7 @@
+{
+  "interface": [
+    {
+      "name": "ethernet-1/10.0"
+    }
+  ]
+}

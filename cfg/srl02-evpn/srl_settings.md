@@ -40,11 +40,37 @@ enter candidate
             }
         }
     }
+/interface irb0 
+    subinterface 0 {
+        ipv4 {
+            address 192.168.101.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+    subinterface 1 {
+        ipv4 {
+            address 192.168.201.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+
 /tunnel-interface vxlan1
     vxlan-interface 1 {
         type bridged
         ingress {
             vni 1
+        }
+    }
+    vxlan-interface 2 {
+        type bridged
+        ingress {
+            vni 2
         }
     }
 /network-instance default
@@ -60,6 +86,8 @@ enter candidate
     type mac-vrf
     admin-state enable
     interface ethernet-1/10.0 {
+    }
+    interface irb0.0 {
     }
     vxlan-interface vxlan1.1 {
     }
@@ -80,6 +108,30 @@ enter candidate
                 }
             }
         }
+    }
+/network-instance mac-vrf2
+    type mac-vrf
+    admin-state enable
+    interface irb0.1 {
+    }
+    vxlan-interface vxlan1.2 {
+    }
+    protocols {
+        bgp-evpn {
+            bgp-instance 1 {
+                admin-state enable
+                vxlan-interface vxlan1.2
+                evi 2
+            }
+        }
+        bgp-vpn {
+        }
+    }
+/network-instance ip-vrf1
+    type ip-vrf
+    interface irb0.0 {
+    }
+    interface irb0.1 {
     }
 /network-instance default
 protocols bgp {
@@ -163,41 +215,16 @@ protocols bgp {
     subinterface ethernet-1/2.0 {
         admin-state enable
     }
-/network-instance default protocols bgp group spines
-    failure-detection {
-        enable-bfd true
-        fast-failover true
-    }
 /routing-policy
-    policy import-all {
-        default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
-            }
-        }
-    }
     policy export-all {
         default-action {
-            reject {
+            accept {
             }
         }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+    }
+    policy import-all {
+        default-action {
+            accept {
             }
         }
     }
@@ -246,11 +273,37 @@ enter candidate
             }
         }
     }
+/interface irb0 
+    subinterface 0 {
+        ipv4 {
+            address 192.168.101.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+    subinterface 1 {
+        ipv4 {
+            address 192.168.201.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+
 /tunnel-interface vxlan1
     vxlan-interface 1 {
         type bridged
         ingress {
             vni 1
+        }
+    }
+    vxlan-interface 2 {
+        type bridged
+        ingress {
+            vni 2
         }
     }
 /network-instance default
@@ -266,6 +319,8 @@ enter candidate
     type mac-vrf
     admin-state enable
     interface ethernet-1/10.0 {
+    }
+    interface irb0.0 {
     }
     vxlan-interface vxlan1.1 {
     }
@@ -286,6 +341,30 @@ enter candidate
                 }
             }
         }
+    }
+/network-instance mac-vrf2
+    type mac-vrf
+    admin-state enable
+    interface irb0.1 {
+    }
+    vxlan-interface vxlan1.2 {
+    }
+    protocols {
+        bgp-evpn {
+            bgp-instance 1 {
+                admin-state enable
+                vxlan-interface vxlan1.2
+                evi 2
+            }
+        }
+        bgp-vpn {
+        }
+    }
+/network-instance ip-vrf1
+    type ip-vrf
+    interface irb0.0 {
+    }
+    interface irb0.1 {
     }
 /network-instance default
 protocols bgp {
@@ -369,41 +448,16 @@ protocols bgp {
     subinterface ethernet-1/2.0 {
         admin-state enable
     }
-/network-instance default protocols bgp group spines
-    failure-detection {
-        enable-bfd true
-        fast-failover true
-    }
 /routing-policy
-    policy import-all {
-        default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
-            }
-        }
-    }
     policy export-all {
         default-action {
-            reject {
+            accept {
             }
         }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+    }
+    policy import-all {
+        default-action {
+            accept {
             }
         }
     }
@@ -452,11 +506,37 @@ enter candidate
             }
         }
     }
+/interface irb0 
+    subinterface 0 {
+        ipv4 {
+            address 192.168.101.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+    subinterface 1 {
+        ipv4 {
+            address 192.168.201.1/24 {
+                anycast-gw true
+            }
+        }
+        anycast-gw {
+        }
+    }
+
 /tunnel-interface vxlan1
     vxlan-interface 1 {
         type bridged
         ingress {
             vni 1
+        }
+    }
+    vxlan-interface 2 {
+        type bridged
+        ingress {
+            vni 2
         }
     }
 /network-instance default
@@ -472,6 +552,8 @@ enter candidate
     type mac-vrf
     admin-state enable
     interface ethernet-1/10.0 {
+    }
+    interface irb0.0 {
     }
     vxlan-interface vxlan1.1 {
     }
@@ -492,6 +574,30 @@ enter candidate
                 }
             }
         }
+    }
+/network-instance mac-vrf2
+    type mac-vrf
+    admin-state enable
+    interface irb0.1 {
+    }
+    vxlan-interface vxlan1.2 {
+    }
+    protocols {
+        bgp-evpn {
+            bgp-instance 1 {
+                admin-state enable
+                vxlan-interface vxlan1.2
+                evi 2
+            }
+        }
+        bgp-vpn {
+        }
+    }
+/network-instance ip-vrf1
+    type ip-vrf
+    interface irb0.0 {
+    }
+    interface irb0.1 {
     }
 /network-instance default
 protocols bgp {
@@ -536,11 +642,11 @@ protocols bgp {
                 admin-state enable
                 peer-group iBGP-evpn
             }
-            neighbor 10.1.1.0 {
+            neighbor 10.1.3.0 {
                 admin-state enable
                 peer-group eBGP-underlay
             }
-            neighbor 10.2.1.0 {
+            neighbor 10.2.3.0 {
                 admin-state enable
                 peer-group eBGP-underlay
             }
@@ -575,41 +681,16 @@ protocols bgp {
     subinterface ethernet-1/2.0 {
         admin-state enable
     }
-/network-instance default protocols bgp group spines
-    failure-detection {
-        enable-bfd true
-        fast-failover true
-    }
 /routing-policy
-    policy import-all {
-        default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
-            }
-        }
-    }
     policy export-all {
         default-action {
-            reject {
+            accept {
             }
         }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+    }
+    policy import-all {
+        default-action {
+            accept {
             }
         }
     }
@@ -698,6 +779,10 @@ enter candidate
         }
         local-as 65123 {
         }
+        route-reflector {
+            client true
+            cluster-id 1.1.1.11
+        }
         timers {
             minimum-advertisement-interval 1
         }    
@@ -762,9 +847,8 @@ enter candidate
             modifier detail
         }
     }
-        route-advertisement {
-            rapid-withdrawal true
-        }
+    route-advertisement {
+        rapid-withdrawal true
     }
 /bfd
     subinterface ethernet-1/1.0 {
@@ -779,35 +863,15 @@ enter candidate
         fast-failover true
     }
 /routing-policy
-policy import-all {
+    policy export-all {
         default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+            accept {
             }
         }
     }
-    policy export-all {
+    policy import-all {
         default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+            accept {
             }
         }
     }
@@ -896,6 +960,10 @@ enter candidate
         }
         local-as 65123 {
         }
+        route-reflector {
+            client true
+            cluster-id 1.1.1.12
+        }
         timers {
             minimum-advertisement-interval 1
         }    
@@ -960,9 +1028,8 @@ enter candidate
             modifier detail
         }
     }
-        route-advertisement {
-            rapid-withdrawal true
-        }
+    route-advertisement {
+        rapid-withdrawal true
     }
 /bfd
     subinterface ethernet-1/1.0 {
@@ -977,35 +1044,15 @@ enter candidate
         fast-failover true
     }
 /routing-policy
-policy import-all {
+    policy export-all {
         default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+            accept {
             }
         }
     }
-    policy export-all {
+    policy import-all {
         default-action {
-            reject {
-            }
-        }
-        statement 10 {
-            match {
-                protocol bgp
-                protocol bgp-evpn
-            }
-            action {
-                accept {
-                }
+            accept {
             }
         }
     }
