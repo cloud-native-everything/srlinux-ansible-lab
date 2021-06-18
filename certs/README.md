@@ -1,3 +1,8 @@
+#Certificates
+
+gen_certs.sh is a script to create certificates for GNMI RPC service
+It will create certificates for CA, client and Leaf
+
 # GNMNI cliente
 
 Get it from https://gnmic.kmrd.dev/

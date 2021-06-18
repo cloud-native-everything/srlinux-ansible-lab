@@ -1,12 +1,11 @@
 ---
 # Create KVM domains for K8s cluster
-# author: Mau
-# email: pinrojas@gmail.com
+# This playbook also creates tap interfaces and bridges to connect SRL leaf at ethernet-1/10
+# Author: Mau
 # check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
 # June 2021
 #
 #
-#- hosts: 10.5.0.104 
 - hosts: baremetals
   gather_facts: no
   remote_user: root

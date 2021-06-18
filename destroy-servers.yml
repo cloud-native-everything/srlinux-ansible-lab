@@ -1,7 +1,6 @@
 ---
 # Destroy KVM domains for K8s cluster
 # author: Mau
-# email: pinrojas@gmail.com
 # check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
 # June 2021
 #
