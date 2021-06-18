@@ -5,4 +5,8 @@
 **leaf*.csr
 **leaf*.crt
 **rootCA*
+**CAkey.pem
 **/ca
+## remove trash
+**test*
+**output*
