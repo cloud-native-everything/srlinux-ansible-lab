@@ -17,6 +17,17 @@
       register: leaf_inst
       changed_when: False
 
+    - name: Copying certs files
+      copy:
+        src: "/srl-lab/certs/certs/{{ item }}"
+        dest: "/tmp/{{ item }}"
+        force: no
+        backup: no
+      with_items:
+        - 'client.crt'
+        - 'client_key.pem'
+        - 'rootCA.crt'
+
     - name: DELETE interface ethernet-1/10 to mac-vrf1
       command: 
         cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --delete /network-instance\[name\=mac-vrf1\]/interface\[name\=ethernet-1/10.0\] 

@@ -19,8 +19,29 @@
 
   tasks:
 
-# Creating tap interfaces nad bridges 
-#
+    - name: Get management BRIDGE for the recently created leaf/spine instances
+      shell: brctl show | grep 'br-' | grep 'veth' | awk '{print $1}'
+      register: mgmt_br
+      changed_when: False
+
+    - name: Check management BRIDGE
+      debug:
+        msg: "bridge is: {{ mgmt_br.stdout }}"
+
+    - name: Check if management BRIDGE exists
+      fail:
+        msg: "There is no management BRIDGE. Have you created the srl containerlab?"
+      when: mgmt_br.stdout == ""
+
+    - name: Store bridge in mgmt_bridge var
+      set_fact:
+        mgmt_bridge: "{{ mgmt_br.stdout }}"
+
+    - name: Check management BRIDGE
+      debug:
+        msg: "bridge is: {{ mgmt_bridge }}"
+
+
     - include: /srl-lab/servers/tap-interfaces-and-bridges.yml
     - include: /srl-lab/servers/kvm-domains.yml
     - include: /srl-lab/servers/dns-server.yml 
