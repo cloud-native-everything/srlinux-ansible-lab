@@ -4,10 +4,10 @@
       "generated-by": "SRLINUX",
       "name": "",
       "comment": "",
-      "created": "2021-06-22T19:30:47.698Z",
+      "created": "2021-06-24T16:54:15.067Z",
       "release": "v21.3.2",
       "enabled-yang-features": ["srl_nokia-features:anycast-gw", "srl_nokia-features:bridged", "srl_nokia-features:evpn", "srl_nokia-features:fixed", "srl_nokia-features:lacp-fallback", "srl_nokia-features:lag", "srl_nokia-features:platform-7220-d2", "srl_nokia-features:trident3", "srl_nokia-features:vxlan"],
-      "checksum": "7f13f15c7d3222df$b350c590da9f52b03f743c7fff92ee78fc5b1ee0"
+      "checksum": "80584471ab343977$3427162ef73acd3686868448ae4ea68e4dd0c3be"
     },
     "build": {
       "git-branch": "",
@@ -1830,21 +1830,24 @@
                 "ip-prefix": "192.168.101.1/24",
                 "anycast-gw": true
               }
-            ]
-          },
-          "anycast-gw": {
-            
-          }
-        },
-        {
-          "index": 1,
-          "ipv4": {
-            "address": [
-              {
-                "ip-prefix": "192.168.201.1/24",
-                "anycast-gw": true
+            ],
+            "srl_nokia-interfaces-nbr:arp": {
+              "learn-unsolicited": true,
+              "host-route": {
+                "populate": [
+                  {
+                    "route-type": "dynamic"
+                  }
+                ]
+              },
+              "srl_nokia-interfaces-nbr-evpn:evpn": {
+                "advertise": [
+                  {
+                    "route-type": "dynamic"
+                  }
+                ]
               }
-            ]
+            }
           },
           "anycast-gw": {
             
@@ -2264,9 +2267,6 @@
       "interface": [
         {
           "name": "irb0.0"
-        },
-        {
-          "name": "irb0.1"
         }
       ],
       "vxlan-interface": [
@@ -2281,8 +2281,7 @@
               "id": 1,
               "admin-state": "enable",
               "vxlan-interface": "vxlan1.4",
-              "evi": 4,
-              "ecmp": 2
+              "evi": 4
             }
           ]
         },
@@ -2320,8 +2319,7 @@
               "id": 1,
               "admin-state": "enable",
               "vxlan-interface": "vxlan1.1",
-              "evi": 1,
-              "ecmp": 2
+              "evi": 1
             }
           ]
         },
@@ -2332,44 +2330,6 @@
               "route-target": {
                 "export-rt": "target:65123:1",
                 "import-rt": "target:65123:1"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "mac-vrf2",
-      "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable",
-      "interface": [
-        {
-          "name": "irb0.1"
-        }
-      ],
-      "vxlan-interface": [
-        {
-          "name": "vxlan1.2"
-        }
-      ],
-      "protocols": {
-        "bgp-evpn": {
-          "srl_nokia-bgp-evpn:bgp-instance": [
-            {
-              "id": 1,
-              "admin-state": "enable",
-              "vxlan-interface": "vxlan1.2",
-              "evi": 2
-            }
-          ]
-        },
-        "srl_nokia-bgp-vpn:bgp-vpn": {
-          "bgp-instance": [
-            {
-              "id": 1,
-              "route-target": {
-                "export-rt": "target:65123:2",
-                "import-rt": "target:65123:2"
               }
             }
           ]
