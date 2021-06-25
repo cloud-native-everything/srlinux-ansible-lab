@@ -1,0 +1,6 @@
+FROM centos:latest
+
+RUN yum -y install squid 
+
+# Run eternal loop
+CMD ["/bin/bash", "-c", "while :; do sleep 10; done"]

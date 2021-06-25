@@ -43,4 +43,4 @@
 
     - include: /srl-lab/servers/tap-interfaces-and-bridges.yml
     - include: /srl-lab/servers/kvm-domains.yml
-    - include: /srl-lab/servers/dns-server.yml 
+    - include: /srl-lab/servers/infra-services.yml 

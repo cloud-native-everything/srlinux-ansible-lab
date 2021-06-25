@@ -34,6 +34,6 @@
         msg: "bridge is: {{ mgmt_bridge }}"
 
 
-    - include: /srl-lab/servers/destroy-dns-server.yml
+    - include: /srl-lab/servers/destroy-infra-services.yml
     - include: /srl-lab/servers/destroy-kvm-domains.yml 
     - include: /srl-lab/servers/destroy-tap-interfaces-and-bridges.yml

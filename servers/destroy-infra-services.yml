@@ -39,6 +39,36 @@
     when: 
       - '"bind9" in docker_images.stdout'
 
+  - name: check if squid-server was previously created
+    command: docker ps --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: Stop container squid-server container
+    command: docker stop squid-server
+    when:
+      - '"squid-server" in docker_ps.stdout'
+
+  - name: check if squid-server is still there
+    command: docker ps --all --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: REMOVE container squid-server container
+    command: docker rm squid-server
+    when:
+      - '"squid-server" in docker_ps.stdout'
+
+  - name: check squid image was created previously
+    command: docker images squid
+    register: docker_images
+    changed_when: False
+
+  - name: Destroy image squid
+    command: docker rmi squid
+    when:
+      - '"squid" in docker_images.stdout'
+ 
   - name: Destroy files for dns server
     file:
       path: "/tmp/{{ item }}"
@@ -48,3 +78,4 @@
       - 'named.conf.local'
       - 'db.srl.nokialab.net'
       - 'Dockerfile.bind'
+      - 'Dockerfile.squid'
