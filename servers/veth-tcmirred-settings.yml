@@ -2,9 +2,13 @@
 # Creating tap interfaces nad bridges 
 #
     - name: Checking qemu containers namespaces
-      shell: "ip netns exec $(ip netns | grep leaf1 | awk '{print $1}') ip link | grep e1-10 | awk '{print $2}'"
+      shell: "ip netns exec $(ip netns | grep leaf1 | awk '{print $1}') ip link | grep e1-10 | awk '{print $2}' | cat"
       register: e10_present
       changed_when: False
+
+    - name: Debug e10_present
+      debug:
+        msg: 'echo e10_present: {{ e10_present.stdout }}'
 
     - name: Copying net-qemu-container for qemu containers
       copy:
@@ -13,7 +17,7 @@
         force: no
         mode: 755
       when:
-        -  'e1-10' not in e10_present.stdout
+        -  "'e1-10' not in e10_present.stdout"
 
     - name: Copying tc mirred scripts for qemu containers
       copy:
@@ -22,16 +26,16 @@
         force: no
         mode: 755
       when:
-        -  'e1-10' not in e10_present.stdout
+        -  "'e1-10' not in e10_present.stdout"
 
     - name: Run the script net-qemu-container for qemu containers
       shell: "/tmp/net-qemu-container.sh {{ item.name }} {{ item.leaf }}"
       with_items: "{{ k8s_inst }}"
       when:
-        -  'e1-10' not in e10_present.stdout
+        -  "'e1-10' not in e10_present.stdout"
 
     - name: Run the tc_mirred.sh for qemu containers
       shell: "/tmp/tc_mirred.sh qemu-{{ item.name }}"
       with_items: "{{ k8s_inst }}"
       when:
-        -  'e1-10' not in e10_present.stdout
+        -  "'e1-10' not in e10_present.stdout"

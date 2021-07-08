@@ -1,0 +1,9 @@
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+# User specific environment and startup programs
+PATH=$PATH:$HOME/bin
+HTTP_PROXY=http://172.20.20.253:3128
+HTTPS_PROXY=http://172.20.20.253:3128
+export PATH

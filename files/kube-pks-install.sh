@@ -26,3 +26,21 @@ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo yum -y clean all
 systemctl restart kubelet
 sudo systemctl enable --now kubelet
+
+# initialize your node. Set the --pod-network-cidr argument to the network segment you will use with Calico
+
+#sudo kubeadm init --pod-network-cidr=10.140.0.0/16
+#sudo pause 5
+
+# overwrite your previous config 
+#sudo mkdir -p $HOME/.kube 
+#sudo /usr/bin/cp -rf  /etc/kubernetes/admin.conf $HOME/.kube/config 
+#sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# install calico after kubeadm init
+# kubectl create -f calico.yaml
+# and check pods: kubectl get pods --all-namespaces
+
+
+
+

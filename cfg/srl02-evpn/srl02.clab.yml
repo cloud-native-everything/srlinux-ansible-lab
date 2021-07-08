@@ -6,6 +6,8 @@ topology:
       type: ixrd2
       image: srlinux
       license: license.key
+    linux:
+      image: pinrojas/net-test:v0.2
   nodes:
     leaf1:
       kind: srl
@@ -17,14 +19,32 @@ topology:
       kind: srl
     spine2:
       kind: srl
+    border:
+      kind: srl
+    client-1:
+      kind: linux
+    client-2:
+      kind: linux
+    client-3:
+      kind: linux
+    client-4:
+      kind: linux
 
   links:
     # leaf <-> spine1 connections
     - endpoints: ["leaf1:e1-1", "spine1:e1-1"]
     - endpoints: ["leaf2:e1-1", "spine1:e1-2"]
     - endpoints: ["leaf3:e1-1", "spine1:e1-3"]
+    - endpoints: ["border:e1-1", "spine1:e1-4"]
 
     # leaf <-> spine2 connections
     - endpoints: ["leaf1:e1-2", "spine2:e1-1"]
     - endpoints: ["leaf2:e1-2", "spine2:e1-2"]
     - endpoints: ["leaf3:e1-2", "spine2:e1-3"]
+    - endpoints: ["border:e1-2", "spine2:e1-4"]
+  
+    # border <-> cliena connections
+    - endpoints: ["client-1:eth1", "leaf1:e1-11"]
+    - endpoints: ["client-2:eth1", "border:e1-10"]
+    - endpoints: ["client-3:eth1", "border:e1-11"]
+    - endpoints: ["client-4:eth1", "border:e1-12"]

@@ -1,0 +1,22 @@
+[connection]
+id=srv
+uuid=76920c82-3726-449e-857b-c9618f3d9da7
+type=ethernet
+interface-name=eth1
+permissions=
+
+[ethernet]
+mac-address-blacklist=
+
+[ipv4]
+address1={{ item.eth1_ip }}/{{ item.eth1_prefix }},{{ item.gateway }}
+dns-search=
+method=manual
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+

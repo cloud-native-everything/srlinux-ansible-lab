@@ -41,8 +41,8 @@
         msg: "bridge is: {{ mgmt_bridge }}"
 
 
-    - include: /srl-lab/servers/tap-interfaces-and-bridges.yml
     - include: /srl-lab/servers/kvm-domains.yml
+    - include: /srl-lab/servers/veth-tcmirred-settings.yml
     - include: /srl-lab/servers/infra-services.yml 
-    - include: /srl-lab/servers/k8s-calico-setup.yml 
+#    - include: /srl-lab/servers/k8s-calico-setup.yml 
 

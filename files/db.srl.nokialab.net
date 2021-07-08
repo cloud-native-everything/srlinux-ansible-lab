@@ -10,11 +10,17 @@ $TTL    604800
      IN      NS      ns1.srl.nokialab.net.
 
 ; name servers - A records
-ns1.srl.nokialab.net.          IN      A      172.21.21.2
+ns1.srl.nokialab.net.          IN      A      172.20.20.254
 
-workerA1.srl.nokialab.net.        IN      A      172.20.20.20
-workerA2.srl.nokialab.net.        IN      A      172.20.20.21
-ControlA.srl.nokialab.net.        IN      A      172.20.20.29
-workerB1.srl.nokialab.net.        IN      A      172.20.20.30
-workerB2.srl.nokialab.net.        IN      A      172.20.20.31
-ControlB.srl.nokialab.net.        IN      A      172.20.20.39
+wk-a1.srl.nokialab.net.        IN      A      192.168.101.20
+wk-a2.srl.nokialab.net.        IN      A      192.168.101.21
+wk-a3.srl.nokialab.net.        IN      A      192.168.101.22
+ctl-a1.srl.nokialab.net.        IN      A      192.168.101.30
+ctl-a2.srl.nokialab.net.        IN      A      192.168.101.31
+ctl-a3.srl.nokialab.net.        IN      A      192.168.101.32
+wk-b1.srl.nokialab.net.        IN      A      192.168.101.40
+wk-b2.srl.nokialab.net.        IN      A      192.168.101.41
+wk-b3.srl.nokialab.net.        IN      A      192.168.101.42
+ctl-b1.srl.nokialab.net.        IN      A      192.168.101.50
+ctl-b2.srl.nokialab.net.        IN      A      192.168.101.51
+ctl-b3.srl.nokialab.net.        IN      A      192.168.101.52

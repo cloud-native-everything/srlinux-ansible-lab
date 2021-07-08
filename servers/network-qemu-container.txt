@@ -1,0 +1,34 @@
+rm -rf /var/run/netns/qemu-container
+pid=$(docker inspect -f '{{.State.Pid}}' "qemu-container")
+sudo ln -sf /proc/$pid/ns/net /var/run/netns/qemu-container
+br_srl=$(brctl show | grep 'br-' | grep 'veth' | awk '{print $1}')
+
+ip netns exec qemu-container ip link set eth0 down
+ip netns exec qemu-container ip link delete eth0
+
+sudo ip link add q0-veth0 type veth peer name q0-veth1
+sudo ip link add q0-veth2 type veth peer name q0-veth3
+sudo ip link set q0-veth0 netns qemu-container
+sudo ip netns exec qemu-container ip link set q0-veth0 name eth0
+sudo ip link set q0-veth2 netns qemu-container
+sudo ip netns exec qemu-container ip link set q0-veth2 name eth1
+
+sudo brctl addif $br_srl q0-veth1
+sudo ip link set q0-veth3 netns clab-srl02-leaf1
+sudo ip netns exec clab-srl02-leaf1 ip link set q0-veth3 name e1-10
+
+sudo ip netns exec qemu-container ip link set eth0 up
+sudo ip netns exec qemu-container ip link set eth1 up
+sudo ip netns exec clab-srl02-leaf1 ip link set e1-10 up
+sudo ip link set q0-veth1 up
+
+
+## Execute inside the container
+tc qdisc add dev eth0 ingress
+tc filter add dev eth0 parent ffff: protocol all u32 match u8 0 0 action mirred egress redirect dev tap0
+tc qdisc add dev tap0 ingress
+tc filter add dev tap0 parent ffff: protocol all u32 match u8 0 0 action mirred egress redirect dev eth0
+tc qdisc add dev eth1 ingress
+tc filter add dev eth1 parent ffff: protocol all u32 match u8 0 0 action mirred egress redirect dev tap1
+tc qdisc add dev tap1 ingress
+tc filter add dev tap1 parent ffff: protocol all u32 match u8 0 0 action mirred egress redirect dev eth1

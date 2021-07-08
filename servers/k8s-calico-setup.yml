@@ -1,0 +1,21 @@
+  - name: resetting known_hosts
+    shell: "echo '' > ~/.ssh/known_hosts"
+
+  - name: Adding certs to auhorized_keys in K8s istances
+    shell: "ssh-keyscan -t rsa {{ item.eth0_ip }} >> ~/.ssh/known_hosts"
+    with_items: "{{ k8s_inst }}"
+
+  - name: set execution permissions to k8s script
+    command: "ssh root@{{ item.eth0_ip }} chmod 755 /root/kube-pks-install.sh"
+    with_items: "{{ k8s_inst }}"
+
+#  - name: Run install kube packages script
+#    command: "ssh root@{{ item.eth0_ip }} /root/kube-pks-install.sh"
+#    with_items: "{{ k8s_inst }}"
+#    register: k8s_setup
+#    changed_when: False
+
+#  - name: Debug script output
+#    debug:
+#      msg: "Script output: k8s_setup"
+
