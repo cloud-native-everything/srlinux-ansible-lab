@@ -1,3 +1,8 @@
+
+#REQUIRES UPDATE. DO NOT USE!!!
+#REQUIRES UPDATE. DO NOT USE!!!
+#REQUIRES UPDATE. DO NOT USE!!!
+
 # Intro
 IMPORTANT: If you havent installed containerlab in advance, stop right here. More details at https://containerlab.srlinux.dev/
 Create a Kubernetes lab on top of srlinux container lab for testing purposes
