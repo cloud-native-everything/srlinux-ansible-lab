@@ -16,6 +16,15 @@
       with_items: "{{ k8s_inst }}"
       when: "'qemu' in qemu_containers.stdout"
 
+#    - name: Stop  veth1 interfaces 
+#      command: ip link set {{ item.name }}-veth1 down
+#      with_items: "{{ k8s_inst }}"
+#      when: "'qemu' in qemu_containers.stdout"
+
+#    - name: Destroy veth1 interfaces 
+#      command: ip link delete {{ item.name }}-veth1
+#      with_items: "{{ k8s_inst }}"
+#      when: "'qemu' in qemu_containers.stdout"
 
     - name: DELETE qcow2 file to image folder for k8s instances
       file:

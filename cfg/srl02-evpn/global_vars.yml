@@ -1,8 +1,7 @@
 # location of files
 ntp_server: '10.5.0.50'
-k8s_qcow2_image: "/home/qemu/fedora-34-password.qcow2"
+k8s_qcow2_image: "/home/qemu/fedora-34-password-docker.qcow2"
 kvm_images_location: "/home/qemu"
-k8s_kvm_xml_template: "/root/srlinux-ansible-lab/templates/centos-docker01-password.xml.j2"
 qemu_mem: '8192'
 qemu_cpu: '4'
 root_fs_size: '28G'
