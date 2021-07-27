@@ -43,14 +43,10 @@ echo 'HTTP_PROXY="http://172.20.20.253:3128"'  >> /etc/sysconfig/crio
 echo 'HTTPS_PROXY="http://172.20.20.253:3128"'  >> /etc/sysconfig/crio
 systemctl restart cri-o
 systemctl enable kubelet.service
+kubeadm config images pull
 
-# kubeadm init --apiserver-advertise-address=10.0.0.30 --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/crio/crio.sock --kubernetes-version=1.20.0
+# kubeadm init --apiserver-advertise-address=192.168.101.30 --pod-network-cidr=10.140.0.0/16 --cri-socket=unix:///var/run/crio/crio.sock --kubernetes-version=1.20.5
 
-sudo yum -y clean all
-sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-sudo yum -y clean all
-systemctl restart kubelet
-sudo systemctl enable --now kubelet
 kubeadm config images pull
 #controller: sudo kubeadm init --pod-network-cidr=10.140.0.0/16
 #workers: sudo kubeadm join ...
