@@ -139,7 +139,7 @@
         - 'item.name not in st.stdout'
 
     - name: Start qemu containers
-      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ qemu_cpu }} -e QEMU_RAM={{ qemu_mem }} pinrojas/qemu:v0.3 
+      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ qemu_cpu }} -e QEMU_RAM={{ qemu_mem }} pinrojas/qemu:v0.31 
       with_items: "{{ k8s_inst }}" 
       when: "'qemu' not in qemu_containers.stdout"
  

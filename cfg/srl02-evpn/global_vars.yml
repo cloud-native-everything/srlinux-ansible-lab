@@ -1,6 +1,6 @@
 # location of files
 ntp_server: '10.5.0.50'
-k8s_qcow2_image: "/home/qemu/fedora-34-password-docker.qcow2"
+k8s_qcow2_image: "/home/qemu/fedora-34-password.qcow2"
 kvm_images_location: "/home/qemu"
 qemu_mem: '8192'
 qemu_cpu: '4'
@@ -12,18 +12,18 @@ root_fs_size: '28G'
 k8s_inst:
   - { name: wk-a1 ,
       leaf: clab-srl02-leaf1 ,
-      eth0_ip: 172.20.20.21 ,
+      eth0_ip: 172.20.20.20 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
-      eth1_ip: 192.168.101.21 ,
+      eth1_ip: 192.168.101.20 ,
       eth1_prefix: 24
     }
   - { name: wk-a2 ,
       leaf: clab-srl02-leaf2 ,
-      eth0_ip: 172.20.20.22 ,
+      eth0_ip: 172.20.20.21 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
-      eth1_ip: 192.168.101.22 ,
+      eth1_ip: 192.168.101.21 ,
       eth1_prefix: 24
     } 
   - { name: ctl-a1 ,

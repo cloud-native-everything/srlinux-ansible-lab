@@ -4,12 +4,12 @@ if [ -f ~/.bashrc ]; then
 fi
 # User specific environment and startup programs
 PATH=$PATH:$HOME/bin
-HTTP_PROXY=http://172.20.20.253:3128
-HTTPS_PROXY=http://172.20.20.253:3128
-http_proxy=http://172.20.20.253:3128
-https_proxy=http://172.20.20.253:3128
+#HTTP_PROXY=http://172.20.20.253:3128
+#HTTPS_PROXY=http://172.20.20.253:3128
+#http_proxy=http://172.20.20.253:3128
+#https_proxy=http://172.20.20.253:3128
 export PATH
-export HTTP_PROXY
-export HTTPS_PROXY
-export http_proxy
-export https_proxy
+#export HTTP_PROXY
+#export HTTPS_PROXY
+#export http_proxy
+#export https_proxy
