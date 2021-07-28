@@ -15,9 +15,9 @@ sudo ip netns exec qemu-$1 ip link set $1-veth2 name eth1
 
 sudo brctl addif $br_srl $1-veth1
 sudo ip link set $1-veth3 netns $2
-sudo ip netns exec $2 ip link set $1-veth3 name e1-10
+sudo ip netns exec $2 ip link set $1-veth3 name $3
 
 sudo ip netns exec qemu-$1 ip link set eth0 up
 sudo ip netns exec qemu-$1 ip link set eth1 up
-sudo ip netns exec $2 ip link set e1-10 up
+sudo ip netns exec $2 ip link set $3 up
 sudo ip link set $1-veth1 up

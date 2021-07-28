@@ -9,6 +9,9 @@
   gather_facts: no
   remote_user: root
 
+  pre_tasks:
+    - include_vars: "/srl-lab/cfg/{{ cfg_option }}/global_vars.yml"
+
   tasks:
 
     - name: get list of srl leaf instances
@@ -32,6 +35,21 @@
         - 'client_key.pem'
         - 'rootCA.crt' 
 
+    - name: Copying templates for mac-vrf1-add-interface JSON files
+      template:
+        src: mac-vrf1-add-interface.json.j2
+        dest: '/tmp/mac-vrf1-add-interface-{{ item.name }}.json'
+        mode: 0666
+      with_items: "{{ k8s_inst }}"
+
+    - name: Copying templates ethernet for JSON files
+      template:
+        src: ethernet.json.j2
+        dest: '/tmp/ethernet-{{ item.name }}.json'
+        mode: 0666
+      with_items: "{{ k8s_inst }}"
+
+
     - name: Copying gnmi JSON files
       copy:
         src: "/srl-lab/srl-instances/{{ item }}"
@@ -42,15 +60,15 @@
         - 'mac-vrf1-add-interface-e10.json'
         - 'ethernet-10.json'
 
-    - name: add interface ethernet-1/10 to leaf
+    - name: add interface ethernet-1/1x to leaf
       command: 
-        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --update-path /interface\[name\=ethernet-1/10\] --update-file ethernet-10.json
+        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item.leaf }}:57400 --username admin --password admin -e json_ietf --skip-verify --update-path /interface\[name\={{ item.leaf_if }}\] --update-file ethernet-{{ item.name }}.json
         chdir: '/tmp'
-      with_items: "{{ leaf_inst.stdout_lines }}"
+      with_items: "{{ k8s_inst }}"
 
     - name: add interface ethernet-1/10 to mac-vrf1
       command: 
-        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --update-path /network-instance\[name\=mac-vrf1\] --update-file mac-vrf1-add-interface-e10.json
+        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item.leaf }}:57400 --username admin --password admin -e json_ietf --skip-verify --update-path /network-instance\[name\=mac-vrf1\] --update-file mac-vrf1-add-interface-{{ item.name }}.json
         chdir: '/tmp'
-      with_items: "{{ leaf_inst.stdout_lines }}"
+      with_items: "{{ k8s_inst }}"
 

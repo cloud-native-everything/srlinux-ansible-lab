@@ -5,41 +5,19 @@
 # June 2021
 #
 #
-- hosts: baremetals
-  gather_facts: no
-  remote_user: root
 
-  tasks:
+    - name: DELETE Ethernet JSON  files
+      file:
+        path: "/tmp/ethernet-{{ item.name }}.json"
+        state: absent
+      with_items: "{{ k8s_inst }}"
 
-    - name: get list of srl leaf instances
-      shell: "ip netns | grep leaf | awk '{print $1}'"
-      register: leaf_inst
-      changed_when: False
+    - name: DELETE mac vrf1 add interface  JSON  files
+      file:
+        path: "/tmp/mac-vrf1-add-interface-{{ item.name }}.json"
+        state: absent
+      with_items: "{{ k8s_inst }}"
 
-    - name: Copying certs files
-      copy:
-        src: "/srl-lab/certs/certs/{{ item }}"
-        dest: "/tmp/{{ item }}"
-        force: no
-        backup: no
-      with_items:
-        - 'client.crt'
-        - 'client_key.pem'
-        - 'rootCA.crt'
-
-    - name: DELETE interface ethernet-1/10 to mac-vrf1
-      command: 
-        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --delete /network-instance\[name\=mac-vrf1\]/interface\[name\=ethernet-1/10.0\] 
-        chdir: '/tmp'
-      register: gnmic_out
-      with_items: "{{ leaf_inst.stdout_lines }}"
-
-    - name: DELETE interface ethernet-1/10 to leaf
-      command: 
-        cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item }}:57400 --username admin --password admin -e json_ietf --skip-verify --delete /interface\[name\=ethernet-1/10\]
-        chdir: '/tmp'
-      register: gnmic_out
-      with_items: "{{ leaf_inst.stdout_lines }}"
 
     - name: DELETE JSON and CERT files
       file:
@@ -49,5 +27,3 @@
         - 'client.crt'
         - 'client_key.pem'
         - 'rootCA.crt' 
-        - 'mac-vrf1-add-interface-e10.json'
-        - 'ethernet-10.json'

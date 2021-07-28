@@ -32,6 +32,8 @@ echo "search srl.nokialab.net" >> /etc/resolv.conf
 dnf module -y install cri-o:1.20/default
 systemctl enable --now cri-o
 dnf -y install kubernetes-kubeadm kubernetes-node kubernetes-client cri-tools iproute-tc container-selinux
+dnf -y update
+dnf -y clean all
 hostnamectl set-hostname $(cat /etc/hosts | grep 192.168 | awk '{print $3}')
 sed -E -i 's/^KUBELET_ADDRESS=.*$/KUBELET_ADDRESS="--address=0.0.0.0"/g' /etc/kubernetes/kubelet
 sed -E -i 's/^# (KUBELET_PORT=.*)$/\1/g' /etc/kubernetes/kubelet

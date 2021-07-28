@@ -37,3 +37,4 @@
     - include: /srl-lab/servers/destroy-infra-services.yml
     - include: /srl-lab/servers/destroy-kvm-domains.yml 
     - include: /srl-lab/servers/destroy-veth-tcmirred-settings.yml
+    - include: /srl-lab/destroy-srl.yml

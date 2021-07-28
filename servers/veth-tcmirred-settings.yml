@@ -29,7 +29,7 @@
         -  "'e1-10' not in e10_present.stdout"
 
     - name: Run the script net-qemu-container for qemu containers
-      shell: "/tmp/net-qemu-container.sh {{ item.name }} {{ item.leaf }}"
+      shell: "/tmp/net-qemu-container.sh {{ item.name }} {{ item.leaf }} {{ item.leaf_netns_if }}"
       with_items: "{{ k8s_inst }}"
       when:
         -  "'e1-10' not in e10_present.stdout"

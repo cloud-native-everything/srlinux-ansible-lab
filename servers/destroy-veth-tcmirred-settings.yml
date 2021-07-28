@@ -7,3 +7,11 @@
         path: "/var/run/netns/qemu-{{ item.name }}"
         state: absent
       with_items: "{{ k8s_inst }}"
+
+    - name: DELETE multiple files and authorized_keys files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - '/tmp/net-qemu-container.sh'
+        - '/tmp/tc_mirred.sh'
