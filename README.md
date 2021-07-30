@@ -139,20 +139,4 @@ ansible-playbook -e cfg_option=srl02-evpn -i servers/hosts playbook-srl.yml
 ansible-playbook  -e cfg_option=srl01 -i servers/hosts destroy.yml
 ```
 
-# Example, deploy EVPN topology
-
-I will show how I am creating a EVPN topology from the scratch using this application.
-You will require gnmic (GNMI client) installed previously in your server.
-You can install it using: 
-```
-bash -c "$(curl -sL https://get-gnmic.kmrd.dev)"
-```
-More info at https://gnmic.kmrd.dev/
-
-## Considerations
-Consider I am using previous settings in this case, including certicates for gnmi connectivity
-- All srl instances have certificates installed in a tls profile
-- All eBGP, iBGP, EVPN/VPN settings are defined in the containerlab lab folder: srlinux-ansible-lab/cfg/srl02-evpn/clab-srl02 
-
-Details of the settings at https://github.com/cloud-native-everything/srlinux-ansible-lab/blob/main/cfg/srl02-evpn/srl_settings.md
 
