@@ -1,6 +1,6 @@
 # location of files
 ntp_server: '10.5.0.50'
-k8s_qcow2_image: "/home/qemu/fedora-34-password.qcow2"
+k8s_qcow2_image: "/home/qemu/f34-password-kubeadm.qcow2"
 kvm_images_location: "/home/qemu"
 qemu_mem: '8192'
 qemu_cpu: '4'
@@ -22,8 +22,8 @@ k8s_inst:
     }
   - { name: wk-a2 ,
       leaf: clab-srl02-leaf2 ,
-      leaf_netns_if: 'e1-11' ,
-      leaf_if: 'ethernet-1/11' ,
+      leaf_netns_if: 'e1-10' ,
+      leaf_if: 'ethernet-1/10' ,
       eth0_ip: 172.20.20.21 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
@@ -32,8 +32,8 @@ k8s_inst:
     } 
   - { name: ctl-a1 ,
       leaf: clab-srl02-leaf3 ,
-      leaf_netns_if: 'e1-12' ,
-      leaf_if: 'ethernet-1/12' ,
+      leaf_netns_if: 'e1-10' ,
+      leaf_if: 'ethernet-1/10' ,
       eth0_ip: 172.20.20.30 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,

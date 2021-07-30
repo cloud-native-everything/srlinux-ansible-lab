@@ -1788,6 +1788,7 @@
         {
           "index": 0,
           "admin-state": "enable",
+          "ip-mtu": 5000,	  
           "ipv4": {
             "address": [
               {
@@ -1806,6 +1807,7 @@
         {
           "index": 0,
           "admin-state": "enable",
+          "ip-mtu": 5000,	  
           "ipv4": {
             "address": [
               {
@@ -1824,6 +1826,7 @@
         {
           "index": 0,
           "admin-state": "enable",
+          "ip-mtu": 5000,	  
           "ipv4": {
             "address": [
               {
@@ -1842,6 +1845,7 @@
         {
           "index": 0,
           "admin-state": "enable",
+          "ip-mtu": 5000,	  
           "ipv4": {
             "address": [
               {
