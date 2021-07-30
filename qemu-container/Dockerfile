@@ -1,8 +1,6 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
+# This is Dockerfile to create containerized qemu instances
+# Author: Mau
+# I picked it up from: https://github.com/tianon/docker-qemu 
 
 FROM debian:buster-slim
 

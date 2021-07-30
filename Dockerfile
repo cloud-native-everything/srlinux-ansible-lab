@@ -1,3 +1,4 @@
+#This is a container to run ansible
 FROM centos:7.9.2009
 
 # Install all packages

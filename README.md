@@ -5,6 +5,21 @@ We assuming you have already installed containerlab for SRL Linux, and you are h
 
 qemu instances are runnig in a container to make easier the connectivity to srl containers.
 
+This is a high level topology
+
+![High level topology](https://www.cloud-native-everything.com/wp-content/uploads/2021/07/srl-srlinux-evpn-bgp-topology.png)
+
+Details depends on the option you choose: 
+srl02-evpn option: EVPN-VXLAN https://github.com/cloud-native-everything/srlinux-ansible-lab/tree/main/cfg/srl02-evpn/READM.md
+![BGP overlay Topology option srl02-evpn](https://www.cloud-native-everything.com/wp-content/uploads/2021/07/srl-srlinux-evpn-vxlan-k8s-cluster-calico-topology-overlay-BGP.png)
+
+
+# Requirements
+
+1. Containerlab and access to download srl images: https://github.com/orgs/nokia/packages/container/package/srlinux
+2. Server with docker installed and at least 64GB memory and 12 cores.
+3. Fedora 34 qcow2 cloud image. I recommend to extend disk to at lest 20G using guestfish
+
 # Install
 
 Assuming you are cloning this repo in your home folder: ``` ~/srlinux-ansible-lab```
