@@ -15,6 +15,9 @@ ns1.srl.nokialab.net.          IN      A      172.20.20.254
 wk-a1.srl.nokialab.net.        IN      A      192.168.101.20
 wk-a2.srl.nokialab.net.        IN      A      192.168.101.21
 wk-a3.srl.nokialab.net.        IN      A      192.168.101.22
+wk-a4.srl.nokialab.net.        IN      A      192.168.101.23
+wk-a5.srl.nokialab.net.        IN      A      192.168.101.24
+wk-a6.srl.nokialab.net.        IN      A      192.168.101.25
 ctl-a1.srl.nokialab.net.        IN      A      192.168.101.30
 ctl-a2.srl.nokialab.net.        IN      A      192.168.101.31
 ctl-a3.srl.nokialab.net.        IN      A      192.168.101.32

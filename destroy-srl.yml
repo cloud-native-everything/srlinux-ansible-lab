@@ -1,0 +1,29 @@
+---
+# Destroy  ethernet-1/10 to leaf
+# author: Mau
+# check more in https://github.com/cloud-native-everything/srlinux-ansible-lab
+# June 2021
+#
+#
+
+    - name: DELETE Ethernet JSON  files
+      file:
+        path: "/tmp/ethernet-{{ item.name }}.json"
+        state: absent
+      with_items: "{{ k8s_inst }}"
+
+    - name: DELETE mac vrf1 add interface  JSON  files
+      file:
+        path: "/tmp/mac-vrf1-add-interface-{{ item.name }}.json"
+        state: absent
+      with_items: "{{ k8s_inst }}"
+
+
+    - name: DELETE JSON and CERT files
+      file:
+        path: "/tmp/{{ item }}"
+        state: absent
+      with_items: 
+        - 'client.crt'
+        - 'client_key.pem'
+        - 'rootCA.crt' 

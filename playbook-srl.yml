@@ -49,17 +49,6 @@
         mode: 0666
       with_items: "{{ k8s_inst }}"
 
-
-    - name: Copying gnmi JSON files
-      copy:
-        src: "/srl-lab/srl-instances/{{ item }}"
-        dest: "/tmp/{{ item }}"
-        force: no
-        backup: no
-      with_items: 
-        - 'mac-vrf1-add-interface-e10.json'
-        - 'ethernet-10.json'
-
     - name: add interface ethernet-1/1x to leaf
       command: 
         cmd: gnmic set --tls-ca rootCA.crt --tls-cert client.crt --tls-key client_key.pem -a {{ item.leaf }}:57400 --username admin --password admin -e json_ietf --skip-verify --update-path /interface\[name\={{ item.leaf_if }}\] --update-file ethernet-{{ item.name }}.json

@@ -11,6 +11,13 @@ guestfish -a $1 -i upload /tmp/http-proxy.conf /etc/systemd/system/docker.servic
 guestfish -a $1 -i mkdir-mode /root/.ssh 0700
 guestfish -a $1 -i chown 0 0 /root/.ssh
 guestfish -a $1 -i upload /tmp/authorized_keys /root/.ssh/authorized_keys
-guestfish -a $1 -i upload /tmp/kube-pks-install.sh /root/kube-pks-install.sh
+guestfish -a $1 -i upload /tmp/kube-f34-prep1.sh /root/kube-f34-prep1.sh
+guestfish -a $1 -i upload /tmp/kube-f34-prep2.sh /root/kube-f34-prep2.sh
 guestfish -a $1 -i upload /tmp/calico.yaml /root/calico.yaml
+guestfish -a $1 -i upload /tmp/flannel.yaml /root/flannel.yaml
+guestfish -a $1 -i upload /tmp/metallb-install-namespace.yaml /root/metallb-install-namespace.yaml
+guestfish -a $1 -i upload /tmp/metallb-install.yaml /root/metallb-install.yaml
+guestfish -a $1 -i upload /tmp/metallb-config.yaml /root/metallb-config.yaml
+guestfish -a $1 -i upload /tmp/hello-app-lb-svc.yaml /root/hello-app-lb-svc.yaml
+guestfish -a $1 -i upload /tmp/hello-node-deploy.yaml /root/hello-node-deploy.yaml
 

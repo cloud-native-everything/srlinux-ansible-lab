@@ -1,0 +1,14 @@
+all:
+  children:
+    srl:
+      hosts:
+        clab-srl02-leaf1:
+          ansible_host: 172.20.20.4
+        clab-srl02-leaf2:
+          ansible_host: 172.20.20.6
+        clab-srl02-leaf3:
+          ansible_host: 172.20.20.3
+        clab-srl02-spine1:
+          ansible_host: 172.20.20.2
+        clab-srl02-spine2:
+          ansible_host: 172.20.20.5

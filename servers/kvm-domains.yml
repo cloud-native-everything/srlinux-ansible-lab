@@ -115,8 +115,15 @@
         - 'bash_profile'
         - 'http-proxy.conf'
         - 'dnf.conf'
-        - 'kube-pks-install.sh'
+        - 'kube-f34-prep1.sh'
+        - 'kube-f34-prep2.sh'
         - 'calico.yaml'
+        - 'flannel.yaml'
+        - 'metallb-install-namespace.yaml'
+        - 'metallb-install.yaml'
+        - 'metallb-config.yaml'
+        - 'hello-app-lb-svc.yaml'
+        - 'hello-node-deploy.yaml'
 
     - name: Store /root/.ssh/id_rsa.pub in var pub_key
       shell: "cat ~/.ssh/id_rsa.pub"

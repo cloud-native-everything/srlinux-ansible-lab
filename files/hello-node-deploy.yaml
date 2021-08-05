@@ -1,0 +1,21 @@
+# file name: hello-node-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-node-deploy
+spec:
+  selector:
+    matchLabels:
+      run: hello-node-svc
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        run: hello-node-svc
+    spec:
+      containers:
+        - name: hello-node-app
+          image: pinrojas/hello-node:v1
+          ports:
+            - containerPort: 8080
+              protocol: TCP

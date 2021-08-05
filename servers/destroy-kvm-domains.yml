@@ -69,8 +69,17 @@
       with_items:
         - '/tmp/authorized_keys'
         - '/tmp/dnf.conf'
-        - '/tmp/kube-pks-install.sh'
         - '/tmp/http-proxy.conf'
         - '/tmp/bash_profile'
+        - '/tmp/kube-f34-prep1.sh'
+        - '/tmp/kube-f34-prep2.sh'
+        - '/tmp/calico.yaml'
+        - '/tmp/flannel.yaml'
+        - '/tmp/metallb-install-namespace.yaml'
+        - '/tmp/metallb-install.yaml'
+        - '/tmp/metallb-config.yaml'
+        - '/tmp/hello-app-lb-svc.yaml'
+        - '/tmp/hello-node-deploy.yaml' 
+
 
 
