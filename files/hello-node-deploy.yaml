@@ -1,4 +1,3 @@
-# file name: hello-node-deploy.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,12 +5,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: hello-node-svc
+      app: hello-node
   replicas: 4
   template:
     metadata:
       labels:
-        run: hello-node-svc
+        app: hello-node
     spec:
       containers:
         - name: hello-node-app

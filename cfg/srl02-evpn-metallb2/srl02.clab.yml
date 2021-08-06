@@ -1,0 +1,44 @@
+name: srl02
+
+topology:
+  kinds:
+    srl:
+      type: ixrd2
+      image: ghcr.io/nokia/srlinux
+      license: license.key
+    linux:
+      image: pinrojas/net-test:v0.3
+  nodes:
+    leaf1:
+      kind: srl
+    leaf2:
+      kind: srl
+    leaf3:
+      kind: srl
+    spine1:
+      kind: srl
+    spine2:
+      kind: srl
+    border:
+      kind: srl
+    haproxy:
+      kind: linux
+    client-1:
+      kind: linux
+
+  links:
+    # leaf <-> spine1 connections
+    - endpoints: ["leaf1:e1-1", "spine1:e1-1"]
+    - endpoints: ["leaf2:e1-1", "spine1:e1-2"]
+    - endpoints: ["leaf3:e1-1", "spine1:e1-3"]
+    - endpoints: ["border:e1-1", "spine1:e1-4"]
+
+    # leaf <-> spine2 connections
+    - endpoints: ["leaf1:e1-2", "spine2:e1-1"]
+    - endpoints: ["leaf2:e1-2", "spine2:e1-2"]
+    - endpoints: ["leaf3:e1-2", "spine2:e1-3"]
+    - endpoints: ["border:e1-2", "spine2:e1-4"]
+  
+    # border <-> cliena connections
+    - endpoints: ["haproxy:eth1", "border:e1-10"]
+    - endpoints: ["client-1:eth1", "border:e1-11"]

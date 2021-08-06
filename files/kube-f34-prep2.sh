@@ -44,3 +44,6 @@ echo "you can use kubeadm init or join now"
 ## Expose services with metallb
 # >> kubectl expose deploy hello-node2-deploy --port 8080 --type LoadBalancer
 
+## kubernetes HA cluster
+# >> kubeadm init --apiserver-advertise-address=192.168.101.30 --cri-socket=unix:///var/run/crio/crio.sock --kubernetes-version=1.20.5 --upload-certs --control-plane-endpoint=192.168.101.99:6443
+# requirements: haproxy

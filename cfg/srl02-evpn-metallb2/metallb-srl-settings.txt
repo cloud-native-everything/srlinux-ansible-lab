@@ -1,0 +1,72 @@
+
+
+```
+--{ running }--[ network-instance ip-vrf1 ]--
+A:border# info
+    type ip-vrf
+    admin-state enable
+    interface irb0.0 {
+    }
+    interface irb0.1 {
+    }
+    interface irb0.2 {
+    }
+    interface lo0.0 {
+    }
+    vxlan-interface vxlan1.4 {
+    }
+    protocols {
+        bgp-evpn {
+            bgp-instance 1 {
+                admin-state enable
+                vxlan-interface vxlan1.4
+                evi 4
+            }
+        }
+        bgp {
+            autonomous-system 65200
+            router-id 6.5.2.1
+            group BGP-metalLB {
+                admin-state enable
+                export-policy export-all
+                import-policy import-all
+            }
+            neighbor 192.168.101.20 {
+                peer-as 65201
+                peer-group BGP-metalLB
+            }
+            neighbor 192.168.101.21 {
+                peer-as 65201
+                peer-group BGP-metalLB
+            }
+            neighbor 192.168.101.30 {
+                peer-as 65201
+                peer-group BGP-metalLB
+            }
+        }
+        bgp-vpn {
+            bgp-instance 1 {
+                route-target {
+                    export-rt target:65123:4
+                    import-rt target:65123:4
+                }
+            }
+        }
+    }
+```
+
+```
+--{ running }--[ network-instance ip-vrf1 ]--
+A:border# /interface lo0
+--{ running }--[ interface lo0 ]--
+A:border# info
+    description "Loopback Interface"
+    admin-state enable
+    subinterface 0 {
+        admin-state enable
+        ipv4 {
+            address 6.5.2.1/32 {
+            }
+        }
+    }
+```

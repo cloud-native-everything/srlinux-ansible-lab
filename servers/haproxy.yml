@@ -1,0 +1,82 @@
+
+  - name: check bind9 image was created previously
+    command: docker images bind9
+    register: docker_images
+    changed_when: False
+
+  - debug:
+      msg: "echo docker_images.stdout: {{ docker_images.stdout }}"
+
+  - name: Copying named.conf.options file for dns server
+    copy: 
+      src: '{{ item }}'
+      dest: "/tmp/{{ item }}"
+      force: no
+    with_items:
+      - 'named.conf.options'
+      - 'named.conf.local'
+      - 'db.srl.nokialab.net'
+      - 'Dockerfile.bind'
+    when: 
+      - "'bind9' not in docker_images.stdout"
+
+  - name: Build container images with data files
+    command: docker build -f /tmp/Dockerfile.bind -t bind9 /tmp
+    when: 
+      - '"bind9" not in docker_images.stdout'
+
+  - name: check if dns-server was previously created
+    command: docker ps --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: Create container for dns-server container at 172.21.21.2
+    command: docker run -d --rm --name=dns-server --net=clab --ip=172.20.20.254 bind9
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+
+  - name: start bind service in dns-server
+    command: docker exec -d dns-server /etc/init.d/bind9 start
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+
+  - name: check squid image was created previously
+    command: docker images squid
+    register: docker_images
+    changed_when: False
+
+  - debug:
+      msg: "echo docker_images.stdout: {{ docker_images.stdout }}"
+
+  - name: Copying  squid Dockerfile file
+    copy:
+      src: '{{ item }}'
+      dest: "/tmp/{{ item }}"
+      force: no
+    with_items:
+      - 'Dockerfile.squid'
+    when:
+      - "'squid' not in docker_images.stdout"
+
+  - name: Build container squid image with data files
+    command: docker build -f /tmp/Dockerfile.squid -t squid /tmp
+    when: 
+      - '"squid" not in docker_images.stdout'
+
+  - name: check if squid-server was previously created
+    command: docker ps --format \'\{\{.Names\}\}\'
+    register: docker_ps
+    changed_when: False
+
+  - name: Create container for squid-server container at 172.20.20.253
+    command: docker run -d --rm --name=squid-server --net=clab --ip=172.20.20.253 squid
+    when:
+      - '"squid-server" not in docker_ps.stdout'
+
+  - name: start bind service in squid-server
+    command: docker exec -d squid-server /usr/sbin/squid
+    when:
+      - '"squid-server" not in docker_ps.stdout'
+
+
+
