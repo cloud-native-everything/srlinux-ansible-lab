@@ -2,8 +2,8 @@
 ntp_server: '10.5.0.50'
 k8s_qcow2_image: "/home/qemu/f34-password-kubeadm.qcow2"
 kvm_images_location: "/home/qemu"
-qemu_mem: '8192'
-qemu_cpu: '4'
+qemu_mem: '16384'
+qemu_cpu: '8'
 root_fs_size: '28G'
 
 
@@ -21,9 +21,9 @@ k8s_inst:
       eth1_prefix: 24
     }
   - { name: wk-a2 ,
-      leaf: clab-srl02-leaf1 ,
-      leaf_netns_if: 'e1-13' ,
-      leaf_if: 'ethernet-1/13' ,
+      leaf: clab-srl02-leaf2 ,
+      leaf_netns_if: 'e1-12' ,
+      leaf_if: 'ethernet-1/12' ,
       eth0_ip: 172.20.20.21 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
@@ -31,49 +31,19 @@ k8s_inst:
       eth1_prefix: 24
     } 
   - { name: wk-a3 ,
-      leaf: clab-srl02-leaf2 ,
-      leaf_netns_if: 'e1-12' ,
-      leaf_if: 'ethernet-1/12' ,
+      leaf: clab-srl02-leaf1 ,
+      leaf_netns_if: 'e1-13' ,
+      leaf_if: 'ethernet-1/13' ,
       eth0_ip: 172.20.20.22 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
       eth1_ip: 192.168.101.22 ,
       eth1_prefix: 24
     }
-  - { name: wk-a4 ,
+  - { name: ctl-a1 ,
       leaf: clab-srl02-leaf2 ,
       leaf_netns_if: 'e1-13' ,
       leaf_if: 'ethernet-1/13' ,
-      eth0_ip: 172.20.20.23 ,
-      gateway: 192.168.101.1 ,
-      eth0_prefix: 24 ,
-      eth1_ip: 192.168.101.23 ,
-      eth1_prefix: 24
-    }
-  - { name: wk-a5 ,
-      leaf: clab-srl02-leaf3 ,
-      leaf_netns_if: 'e1-12' ,
-      leaf_if: 'ethernet-1/12' ,
-      eth0_ip: 172.20.20.24 ,
-      gateway: 192.168.101.1 ,
-      eth0_prefix: 24 ,
-      eth1_ip: 192.168.101.24 ,
-      eth1_prefix: 24
-    }
-  - { name: wk-a6 ,
-      leaf: clab-srl02-leaf3 ,
-      leaf_netns_if: 'e1-13' ,
-      leaf_if: 'ethernet-1/13' ,
-      eth0_ip: 172.20.20.25 ,
-      gateway: 192.168.101.1 ,
-      eth0_prefix: 24 ,
-      eth1_ip: 192.168.101.25 ,
-      eth1_prefix: 24
-    }
-  - { name: ctl-a1 ,
-      leaf: clab-srl02-leaf1 ,
-      leaf_netns_if: 'e1-10' ,
-      leaf_if: 'ethernet-1/10' ,
       eth0_ip: 172.20.20.30 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
@@ -81,9 +51,9 @@ k8s_inst:
       eth1_prefix: 24
     } 
   - { name: ctl-a2 ,
-      leaf: clab-srl02-leaf2 ,
-      leaf_netns_if: 'e1-10' ,
-      leaf_if: 'ethernet-1/10' ,
+      leaf: clab-srl02-leaf1 ,
+      leaf_netns_if: 'e1-14' ,
+      leaf_if: 'ethernet-1/14' ,
       eth0_ip: 172.20.20.31 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,
@@ -91,9 +61,9 @@ k8s_inst:
       eth1_prefix: 24
     } 
   - { name: ctl-a3 ,
-      leaf: clab-srl02-leaf3 ,
-      leaf_netns_if: 'e1-10' ,
-      leaf_if: 'ethernet-1/10' ,
+      leaf: clab-srl02-leaf2 ,
+      leaf_netns_if: 'e1-14' ,
+      leaf_if: 'ethernet-1/14' ,
       eth0_ip: 172.20.20.32 ,
       gateway: 192.168.101.1 ,
       eth0_prefix: 24 ,

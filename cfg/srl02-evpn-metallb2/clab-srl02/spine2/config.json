@@ -1819,25 +1819,6 @@
       ]
     },
     {
-      "name": "ethernet-1/3",
-      "description": "Interface to Leaf3",
-      "admin-state": "enable",
-      "subinterface": [
-        {
-          "index": 0,
-          "admin-state": "enable",
-          "ip-mtu": 5000,	  
-          "ipv4": {
-            "address": [
-              {
-                "ip-prefix": "10.2.3.0/31"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
       "name": "ethernet-1/4",
       "description": "Interface to Leaf3",
       "admin-state": "enable",
@@ -2103,9 +2084,6 @@
           "name": "ethernet-1/2.0"
         },
         {
-          "name": "ethernet-1/3.0"
-        },
-        {
           "name": "ethernet-1/4.0"
         },
         {
@@ -2187,11 +2165,6 @@
               "peer-group": "eBGP-underlay"
             },
             {
-              "peer-address": "10.1.3.1",
-              "peer-as": 65003,
-              "peer-group": "eBGP-underlay"
-            },
-            {
               "peer-address": "10.1.4.1",
               "peer-as": 65004,
               "peer-group": "eBGP-underlay"
@@ -2204,11 +2177,6 @@
             {
               "peer-address": "10.2.2.1",
               "peer-as": 65002,
-              "peer-group": "eBGP-underlay"
-            },
-            {
-              "peer-address": "10.2.3.1",
-              "peer-as": 65003,
               "peer-group": "eBGP-underlay"
             },
             {

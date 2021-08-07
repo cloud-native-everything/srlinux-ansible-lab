@@ -13,8 +13,6 @@ topology:
       kind: srl
     leaf2:
       kind: srl
-    leaf3:
-      kind: srl
     spine1:
       kind: srl
     spine2:
@@ -30,13 +28,11 @@ topology:
     # leaf <-> spine1 connections
     - endpoints: ["leaf1:e1-1", "spine1:e1-1"]
     - endpoints: ["leaf2:e1-1", "spine1:e1-2"]
-    - endpoints: ["leaf3:e1-1", "spine1:e1-3"]
     - endpoints: ["border:e1-1", "spine1:e1-4"]
 
     # leaf <-> spine2 connections
     - endpoints: ["leaf1:e1-2", "spine2:e1-1"]
     - endpoints: ["leaf2:e1-2", "spine2:e1-2"]
-    - endpoints: ["leaf3:e1-2", "spine2:e1-3"]
     - endpoints: ["border:e1-2", "spine2:e1-4"]
   
     # border <-> cliena connections
