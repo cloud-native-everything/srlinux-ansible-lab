@@ -1,0 +1,73 @@
+# location of files
+ntp_server: '10.5.0.50'
+k8s_qcow2_image: "/home/qemu/f34-password-kubeadm.qcow2"
+kvm_images_location: "/home/qemu"
+qemu_mem: '16384'
+qemu_cpu: '8'
+root_fs_size: '28G'
+
+
+# servers will be connected to interface ethernet-1/10 (ip link e1-10)
+
+k8s_inst:
+  - { name: wk-b1 ,
+      leaf: clab-srl02-leaf1 ,
+      leaf_netns_if: 'e1-12' ,
+      leaf_if: 'ethernet-1/12' ,
+      eth0_ip: 172.20.20.20 ,
+      gateway: 192.168.102.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.102.20 ,
+      eth1_prefix: 24
+    }
+  - { name: wk-b2 ,
+      leaf: clab-srl02-leaf2 ,
+      leaf_netns_if: 'e1-12' ,
+      leaf_if: 'ethernet-1/12' ,
+      eth0_ip: 172.20.20.21 ,
+      gateway: 192.168.103.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.103.21 ,
+      eth1_prefix: 24
+    } 
+  - { name: wk-b3 ,
+      leaf: clab-srl02-leaf1 ,
+      leaf_netns_if: 'e1-13' ,
+      leaf_if: 'ethernet-1/13' ,
+      eth0_ip: 172.20.20.22 ,
+      gateway: 192.168.102.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.102.22 ,
+      eth1_prefix: 24
+    }
+  - { name: ctl-b1 ,
+      leaf: clab-srl02-leaf2 ,
+      leaf_netns_if: 'e1-13' ,
+      leaf_if: 'ethernet-1/13' ,
+      eth0_ip: 172.20.20.30 ,
+      gateway: 192.168.103.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.103.30 ,
+      eth1_prefix: 24
+    } 
+  - { name: ctl-b2 ,
+      leaf: clab-srl02-leaf1 ,
+      leaf_netns_if: 'e1-14' ,
+      leaf_if: 'ethernet-1/14' ,
+      eth0_ip: 172.20.20.31 ,
+      gateway: 192.168.102.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.102.31 ,
+      eth1_prefix: 24
+    } 
+  - { name: ctl-b3 ,
+      leaf: clab-srl02-leaf2 ,
+      leaf_netns_if: 'e1-14' ,
+      leaf_if: 'ethernet-1/14' ,
+      eth0_ip: 172.20.20.32 ,
+      gateway: 192.168.103.1 ,
+      eth0_prefix: 24 ,
+      eth1_ip: 192.168.103.32 ,
+      eth1_prefix: 24
+    } 
+      
