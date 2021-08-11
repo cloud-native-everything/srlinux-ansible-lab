@@ -17,12 +17,12 @@ srl02-evpn option: EVPN-VXLAN https://github.com/cloud-native-everything/srlinux
 # Requirements
 
 1. Containerlab and access to download srl images: https://github.com/orgs/nokia/packages/container/package/srlinux
-2. Server with docker installed and at least 64GB memory and 12 cores.
+2. Bare Metal server with docker installed and at least 64GB memory and 12 cores.
 3. Fedora 34 qcow2 cloud image. I recommend to extend disk to at lest 20G using guestfish
 
-If you have fedora34, you can use those scripts with all the required steps to prepare it
+If you have fedora34 as 'baremetal' server, you can use those scripts with all the required steps to prepare it:
 
-Before reboot:
+Before reboot (fedora34):
 ```
 ## disable firewall
 
