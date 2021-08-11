@@ -2266,17 +2266,17 @@
           ],
           "neighbor": [
             {
-              "peer-address": "192.168.101.22",
+              "peer-address": "192.168.101.21",
               "peer-as": 65201,
               "peer-group": "BGP-metalLB"
             },
             {
-              "peer-address": "192.168.101.23",
+              "peer-address": "192.168.101.30",
               "peer-as": 65201,
               "peer-group": "BGP-metalLB"
             },
             {
-              "peer-address": "192.168.101.31",
+              "peer-address": "192.168.101.32",
               "peer-as": 65201,
               "peer-group": "BGP-metalLB"
             }

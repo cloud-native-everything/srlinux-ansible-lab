@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    peers:
+    - peer-address: 6.5.3.1
+      peer-asn: 65221
+      my-asn: 65201
+      node-selectors:
+      - match-labels:
+          leaf: leaf1
+    - peer-address: 6.5.3.2
+      peer-asn: 65222
+      my-asn: 65201
+      node-selectors:
+      - match-labels:
+          leaf: leaf2
+    address-pools:
+    - name: default
+      protocol: bgp
+      avoid-buggy-ips: true
+      addresses:
+      - 192.168.110.0/24

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    peers:
+    - peer-address: 1.1.1.11
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.20
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [wk-b1]
+    - peer-address: 1.1.1.12
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.21
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [wk-b2]
+    - peer-address: 1.1.1.11
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.22
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [wk-b3]
+    - peer-address: 1.1.1.12
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.30
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [ctl-b1]
+    - peer-address: 1.1.1.11
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.31
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [ctl-b2]
+    - peer-address: 1.1.1.12
+      peer-asn: 64999
+      my-asn: 65201
+      router-id: 1.1.1.32
+      node-selectors:
+      - match-expressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values: [ctl-b3]
+    address-pools:
+    - name: default
+      protocol: bgp
+      addresses:
+      - 192.168.153.0/24

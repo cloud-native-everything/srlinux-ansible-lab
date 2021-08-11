@@ -2326,12 +2326,12 @@
               "peer-group": "BGP-metalLB"
             },
             {
-              "peer-address": "192.168.101.21",
+              "peer-address": "192.168.101.22",
               "peer-as": 65201,
               "peer-group": "BGP-metalLB"
             },
             {
-              "peer-address": "192.168.101.30",
+              "peer-address": "192.168.101.31",
               "peer-as": 65201,
               "peer-group": "BGP-metalLB"
             }

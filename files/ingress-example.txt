@@ -1,0 +1,101 @@
+[root@ctl-b1 ~]# cat hello-svc-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-myservicea
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: myservicea.foo.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-svca
+            port:
+              number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-myserviceb
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: myserviceb.foo.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-svcb
+            port:
+              number: 8080
+[root@ctl-b1 ~]# cat hello-svca.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-svca
+spec:
+  selector:
+    matchLabels:
+      run: hello-svca
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        run: hello-svca
+    spec:
+      containers:
+        - name: hello-node-app
+          image: pinrojas/hello-svca:v1
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+[root@ctl-b1 ~]# cat hello-svcb.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-svcb
+spec:
+  selector:
+    matchLabels:
+      run: hello-svcb
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        run: hello-svcb
+    spec:
+      containers:
+        - name: hello-node-app
+          image: pinrojas/hello-svcb:v1
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+
+
+
+
+
+
+
+  651  kubectl expose deploy hello-svca
+  652  kubectl expose deploy hello-svcb
+  720  kubectl patch service hello-svcb   -p '{"spec":{"type": "NodePort", "externalTrafficPolicy":"Local"}}'
+  721  kubectl patch service hello-svca   -p '{"spec":{"type": "NodePort", "externalTrafficPolicy":"Local"}}'
+
+
+
+
+from client 1
+
+for i in $(seq 1 20); do curl http://myservicea.foo.org; done
+add myservicea.foo.org to /etc/hosts
+add myserviceb.foo.org to /etc/hosts
+

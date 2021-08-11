@@ -20,6 +20,65 @@ srl02-evpn option: EVPN-VXLAN https://github.com/cloud-native-everything/srlinux
 2. Server with docker installed and at least 64GB memory and 12 cores.
 3. Fedora 34 qcow2 cloud image. I recommend to extend disk to at lest 20G using guestfish
 
+If you have fedora34, you can use those scripts with all the required steps to prepare it
+
+Before reboot:
+```
+## disable firewall
+
+systemctl disable --now firewalld
+systemctl disable --now systemd-resolved
+
+## disable selinux
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=.*$/SELINUX=disabled/' /etc/selinux/config
+
+## install git and docker
+
+dnf -y install git
+dnf -y install docker
+systemctl enable --now docker
+
+## Applying fix for docker. details at https://www.linuxuprising.com/2019/11/how-to-install-and-use-docker-on-fedora.html
+dnf -y install grubby
+grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+
+echo "docker ix in fedora needs reboot"
+echo "reboot in 10s"
+pause 10
+```
+
+After reboot
+```
+## Install container lab
+bash -c "$(curl -sL https://get-clab.srlinux.dev)" -- -v 0.16.1
+mkdir clab-quickstart
+cd ~/clab-quickstart
+
+## copy license.key (you should contact someone from Nokia to get it)
+
+## guestfish tools
+dnf -y install bridge-utils
+dnf -y install libguestfs libguestfs-tools qemu-kvm libvirt
+system start libvirtd
+system enable --now  libvirtd
+
+mkdir -p /home/qemu
+chown -R qemu:qemu /home/qemu
+
+## Copy image fedora qcow2 in /home/qemu
+
+## Install gnmic
+bash -c "$(curl -sL https://get-gnmic.kmrd.dev)"
+
+## clone project
+
+cd
+git clone https://github.com/cloud-native-everything/srlinux-ansible-lab
+cd ~/srlinux-ansible-lab
+sudo docker build -t srl-lab:0.1 .
+```
+
 # Install
 
 Assuming you are cloning this repo in your home folder: ``` ~/srlinux-ansible-lab```
