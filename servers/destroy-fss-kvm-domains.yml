@@ -1,0 +1,52 @@
+---
+# Creating tap interfaces nad bridges
+#
+
+    - name: List qemu containers
+      shell: "docker ps --format {{ '{{' }}.Names{{ '}}' }} | grep fss | cat"
+      register: fss_containers
+      changed_when: False
+
+    - name: Check fss_containers
+      debug:
+        msg: "qemu containers: {{ fss_containers.stdout }}"
+
+    - name: Stop qemu containers
+      command: docker stop qemu-{{ item.name }}
+      with_items: "{{ fss_inst }}"
+      when: "'fss' in fss_containers.stdout"
+
+    - name: DELETE qcow2 file to image folder for fss instances
+      file:
+        path: "{{ fss_kvm_images_location }}/{{ item.name }}.qcow2"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE fss-guestfish-files.sh script files fss instances
+      file:
+        path: "/tmp/fss-guestfish-files-{{ item.name }}.sh"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE fss-mgmt.nmconnection files for fss instances
+      file:
+        path: "/tmp/fss-mgmt.nmconnection.{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE hostname files for fss instances
+      file:
+        path: "/tmp/hostname.{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE multiple files and authorized_keys files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - '/tmp/authorized_keys'
+        - '/tmp/dnf.conf'
+        - '/tmp/http-proxy.conf'
+        - '/tmp/bash_profile'
+

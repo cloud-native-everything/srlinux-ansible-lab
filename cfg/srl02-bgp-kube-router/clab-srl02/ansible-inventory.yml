@@ -1,0 +1,20 @@
+all:
+  children:
+    linux:
+      hosts:
+        clab-srl02-client-1:
+          ansible_host: 172.20.20.2
+        clab-srl02-haproxy:
+          ansible_host: 172.20.20.3
+    srl:
+      hosts:
+        clab-srl02-border:
+          ansible_host: 172.20.20.4
+        clab-srl02-leaf1:
+          ansible_host: 172.20.20.8
+        clab-srl02-leaf2:
+          ansible_host: 172.20.20.6
+        clab-srl02-spine1:
+          ansible_host: 172.20.20.7
+        clab-srl02-spine2:
+          ansible_host: 172.20.20.5

@@ -1,0 +1,10 @@
+guestfish -a $1 -i upload /tmp/fss-mgmt.nmconnection.{{ item.name }} /etc/NetworkManager/system-connections/fss-mgmt.nmconnection
+guestfish -a $1 -i chmod 0600 /etc/NetworkManager/system-connections/fss-mgmt.nmconnection
+guestfish -a $1 -i upload /tmp/hostname.{{ item.name }} /etc/hostname
+guestfish -a $1 -i upload /tmp/dnf.conf /etc/dnf/dnf.conf
+guestfish -a $1 -i upload /tmp/bash_profile /root/.bash_profile
+guestfish -a $1 -i mkdir /etc/systemd/system/docker.service.d
+guestfish -a $1 -i upload /tmp/http-proxy.conf /etc/systemd/system/docker.service.d/http-proxy.conf
+guestfish -a $1 -i mkdir-mode /root/.ssh 0700
+guestfish -a $1 -i chown 0 0 /root/.ssh
+guestfish -a $1 -i upload /tmp/authorized_keys /root/.ssh/authorized_keys

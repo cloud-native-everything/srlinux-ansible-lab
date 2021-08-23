@@ -1,0 +1,17 @@
+After installing every controller
+
+
+dnf install ipset ipvsadm -y
+modprobe -- ip_vs
+modprobe -- ip_vs_rr
+modprobe -- ip_vs_wrr
+modprobe -- ip_vs_sh
+modprobe -- nf_conntrack
+
+kubectl edit configmap kube-proxy -n kube-system
+...
+mode: "ipvs"
+
+kubectl get po -n kube-system
+kubectl delete po -n kube-system [kube-proxy pod]
+kubectl logs [kube-proxy pod] -n kube-system | grep "Using ipvs Proxier"

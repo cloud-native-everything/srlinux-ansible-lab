@@ -1,0 +1,90 @@
+---
+# Creating Qemu instances
+#
+    - name: List fss qemu containers
+      shell: "docker ps --format {{ '{{' }}.Names{{ '}}' }} | grep fss | cat"
+      register: fss_containers
+      changed_when: False
+
+    - name: Check fss_containers
+      debug:
+        msg: "fss qemu containers: {{ fss_containers.stdout }}"
+
+    - name: Copy fss qcow2 file to image folder for fss instances
+      copy:
+        remote_src: true
+        src: "{{ fss_qcow2_base_image }}"
+        dest: "{{ fss_kvm_images_location }}/{{ item.name }}.qcow2"
+        owner: qemu
+        group: qemu
+        force: no
+      with_items: "{{ fss_inst }}"
+      when: "'fss' not in fss_containers.stdout"
+
+    - name: Check if the script fss-guestfish-files.sh exists and have permissions
+      command: ls /tmp
+      register: st
+      changed_when: False
+
+    - name: Copying script to hypervisor to configure  NetworkManager
+      template:
+        src: fss-guestfish-files.sh.j2
+        dest: '/tmp/fss-guestfish-files-{{ item.name }}.sh'
+        mode: 0755
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying fss-mgmt.nmconnection template
+      template:
+        src: fss-mgmt.nmconnection.j2
+        backup: no
+        dest: "/tmp/fss-mgmt.nmconnection.{{ item.name }}"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying hostname template
+      template:
+        src: hostname.j2
+        backup: no
+        dest: "/tmp/hostname.{{ item.name }}"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying  proxy settings files
+      copy:
+        src: '{{ item }}'
+        dest: "/tmp/{{ item }}"
+        force: no
+      with_items:
+        - 'bash_profile'
+        - 'http-proxy.conf'
+        - 'dnf.conf'
+
+    - name: Store /root/.ssh/id_rsa.pub in var pub_key
+      shell: "cat ~/.ssh/id_rsa.pub"
+      register: pub_key
+
+    - name: Check pub_key
+      debug:
+        msg: "Show pub_key: {{ pub_key.stdout }}"
+
+    - name: Copying authorized_keys file to /tmp
+      template:
+        src: authorized_keys.j2
+        backup: no
+        dest: /tmp/authorized_keys
+
+    - name: Run the script fss-guestfish-files.sh
+      shell: "/tmp/fss-guestfish-files-{{ item.name }}.sh {{ fss_kvm_images_location }}/{{ item.name }}.qcow2"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Start qemu containers
+      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ fss_qemu_cpu }} -e QEMU_RAM={{ fss_qemu_mem }} pinrojas/qemu:v0.31
+      with_items: "{{ fss_inst }}"
+      when: "'fss' not in fss_containers.stdout"
+

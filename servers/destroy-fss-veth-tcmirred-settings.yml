@@ -1,0 +1,17 @@
+---
+# Destroying netns
+#
+
+    - name: DELETE netns symbolic links for k8s instances
+      file:
+        path: "/var/run/netns/qemu-{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE multiple files and authorized_keys files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - '/tmp/fss-net-qemu-container.sh'
+        - '/tmp/fss_tc_mirred.sh'

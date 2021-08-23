@@ -1,0 +1,23 @@
+[connection]
+id=fss-mgmt
+uuid=c6057be9-1071-4f93-89e3-90451301d6b9
+type=ethernet
+interface-name=eth0
+permissions=
+
+[ethernet]
+mac-address-blacklist=
+
+[ipv4]
+address1={{ item.eth0_ip }}/{{ item.eth0_prefix }},{{ item.gateway }}
+dns=172.20.20.254;
+dns-search=
+method=manual
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+

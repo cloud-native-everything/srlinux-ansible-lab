@@ -1,0 +1,71 @@
+calicoctl patch bgpconfiguration default -p '{"spec": {"nodeToNodeMeshEnabled": false}}'
+kubectl patch service nginx \
+  -p '{"spec":{"type": "NodePort", "externalTrafficPolicy":"Local"}}'
+kubectl label --overwrite nodes wk-b1 leaf=leaf1
+kubectl label --overwrite nodes wk-b2 leaf=leaf2
+kubectl label --overwrite nodes wk-b3 leaf=leaf1
+kubectl label --overwrite nodes ctl-b1 leaf=leaf2
+kubectl label --overwrite nodes ctl-b2 leaf=leaf1
+kubectl label --overwrite nodes ctl-b3 leaf=leaf2
+
+[root@ctl-b1 ~]# cat calico-bgp-configuration.yaml
+apiVersion: projectcalico.org/v3
+kind: BGPConfiguration
+metadata:
+  name: default
+spec:
+  logSeverityScreen: Info
+  nodeToNodeMeshEnabled: false
+  serviceClusterIPs:
+  - cidr: 10.96.0.0/12
+[root@ctl-b1 ~]# cat calico-bgp.yaml
+apiVersion: projectcalico.org/v3
+kind: BGPPeer
+metadata:
+  name: leaf1-tor
+spec:
+  peerIP: 1.1.1.1
+  asNumber: 65001
+  nodeSelector: leaf == 'leaf1'
+
+---
+apiVersion: projectcalico.org/v3
+kind: BGPPeer
+metadata:
+  name: leaf2-tor
+spec:
+  peerIP: 1.1.1.2
+  asNumber: 65002
+  nodeSelector: leaf == 'leaf2'
+
+[root@ctl-b1 ~]# ./calicoctl get ippool default-ipv4-ippool -o yaml
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  creationTimestamp: "2021-08-09T15:26:39Z"
+  name: default-ipv4-ippool
+  resourceVersion: "5339"
+  uid: 430040d4-44dd-49ad-be26-a75eb5c579cd
+spec:
+  blockSize: 26
+  cidr: 172.16.0.0/16
+  ipipMode: Never
+  natOutgoing: true
+  nodeSelector: all()
+  vxlanMode: Never
+
+[root@ctl-b1 ~]# cat underlay-only.yaml
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  creationTimestamp: "2021-08-09T15:26:39Z"
+  name: default-ipv4-ippool
+  resourceVersion: "1078"
+  uid: 430040d4-44dd-49ad-be26-a75eb5c579cd
+spec:
+  blockSize: 26
+  cidr: 172.16.0.0/16
+  ipipMode: Never
+  natOutgoing: true
+  nodeSelector: all()
+  vxlanMode: Never
