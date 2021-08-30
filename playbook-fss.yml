@@ -15,27 +15,9 @@
 
   tasks:
 
-    - name: Get management BRIDGE for the recently created leaf/spine instances
-      shell: brctl show | grep 'br-' | grep 'veth' | awk '{print $1}'
-      register: mgmt_br
-      changed_when: False
-
-    - name: Check management BRIDGE
-      debug:
-        msg: "bridge is: {{ mgmt_br.stdout }}"
-
-    - name: Check if management BRIDGE exists
-      fail:
-        msg: "There is no management BRIDGE. Have you created the srl containerlab?"
-      when: mgmt_br.stdout == ""
-
     - name: Store bridge in mgmt_bridge var
       set_fact:
-        mgmt_bridge: "{{ mgmt_br.stdout }}"
-
-    - name: Check management BRIDGE
-      debug:
-        msg: "bridge is: {{ mgmt_bridge }}"
+        mgmt_bridge: "fss-bridge"
 
 
     - include: /srl-lab/servers/fss-kvm-domains.yml

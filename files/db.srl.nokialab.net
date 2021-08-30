@@ -26,3 +26,7 @@ wk-b3.srl.nokialab.net.        IN      A      192.168.102.22
 ctl-b1.srl.nokialab.net.        IN      A      192.168.103.30
 ctl-b2.srl.nokialab.net.        IN      A      192.168.102.31
 ctl-b3.srl.nokialab.net.        IN      A      192.168.103.32
+fss-dep.srl.nokialab.net.        IN      A      172.20.20.40
+fss-a1.srl.nokialab.net.        IN      A      172.20.20.41
+fss-a2.srl.nokialab.net.        IN      A      172.20.20.42
+fss-a3.srl.nokialab.net.        IN      A      172.20.20.43

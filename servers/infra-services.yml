@@ -35,6 +35,11 @@
     when:
       - '"dns-server" not in docker_ps.stdout'
 
+  - name: Create container for ntp container at 172.20.20.252
+    command: docker run -d --rm --name=ntp-server --net=clab --ip=172.20.20.252 pinrojas/ntp:v0.1
+    when:
+      - '"dns-server" not in docker_ps.stdout'
+
   - name: start bind service in dns-server
     command: docker exec -d dns-server /etc/init.d/bind9 start
     when:

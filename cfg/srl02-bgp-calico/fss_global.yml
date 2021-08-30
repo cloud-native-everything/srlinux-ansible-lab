@@ -1,6 +1,7 @@
 fss_ntp_server: '10.5.0.50'
-fss_qcow2_base_image: "/home/qemu/fedora-34-password.qcow2"
-fss_kvm_images_location: "/home/qemu"
+fss_dns_server: '172.20.20.254'
+fss_qcow2_base_image: "/var/lib/libvirt/images/fss/centos-infra-fss-password-100G-orig.qcow2"
+fss_kvm_images_location: "/var/lib/libvirt/images/fss"
 fss_qemu_mem: '8192'
 fss_qemu_cpu: '4'
 fss_root_fs_size: '28G'
@@ -9,18 +10,35 @@ fss_root_fs_size: '28G'
 # servers will be connected to interface ethernet-1/10 (ip link e1-10)
 
 fss_inst:
+#  - { name: fss-dep ,
+#      qcow2_image: "/var/lib/libvirt/images/fss/fss-deployer.qcow2" ,
+#      qemu_mem: '8192' ,
+#      qemu_cpu: '2' ,
+#      eth0_ip: 172.20.21.40 ,
+#      gateway: 172.20.21.1 ,
+#      eth0_prefix: 24 ,
+#    }
   - { name: fss-a1 ,
-      eth0_ip: 172.20.20.41 ,
-      gateway: 172.20.20.1 ,
+      qcow2_image: "/var/lib/libvirt/images/fss/centos-infra-fss-password-100G-orig.qcow2",
+      qemu_mem: '16384' ,
+      qemu_cpu: '8' ,
+      eth0_ip: 172.20.21.41 ,
+      gateway: 172.20.21.1 ,
       eth0_prefix: 24 ,
     }
   - { name: fss-a2 ,
-      eth0_ip: 172.20.20.42 ,
-      gateway: 172.20.20.1 ,
+      qcow2_image: "/var/lib/libvirt/images/fss/centos-infra-fss-password-100G-orig.qcow2",
+      qemu_mem: '16384' ,
+      qemu_cpu: '8' ,
+      eth0_ip: 172.20.21.42 ,
+      gateway: 172.20.21.1 ,
       eth0_prefix: 24 ,
     }
   - { name: fss-a3 ,
-      eth0_ip: 172.20.20.43 ,
-      gateway: 172.20.20.1 ,
+      qcow2_image: "/var/lib/libvirt/images/fss/centos-infra-fss-password-100G-orig.qcow2",
+      qemu_mem: '16384' ,
+      qemu_cpu: '8' ,
+      eth0_ip: 172.20.21.43 ,
+      gateway: 172.20.21.1 ,
       eth0_prefix: 24 ,
     }

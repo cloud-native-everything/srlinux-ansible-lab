@@ -28,15 +28,27 @@
         state: absent
       with_items: "{{ fss_inst }}"
 
-    - name: DELETE fss-mgmt.nmconnection files for fss instances
-      file:
-        path: "/tmp/fss-mgmt.nmconnection.{{ item.name }}"
-        state: absent
-      with_items: "{{ fss_inst }}"
-
     - name: DELETE hostname files for fss instances
       file:
         path: "/tmp/hostname.{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE ifcfg-eth0 files for fss instances
+      file:
+        path: "/tmp/fss-ifcfg-eth0.{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE network files for fss instances
+      file:
+        path: "/tmp/fss-network.{{ item.name }}"
+        state: absent
+      with_items: "{{ fss_inst }}"
+
+    - name: DELETE resolv.conf files for fss instances
+      file:
+        path: "/tmp/fss-resolv.conf.{{ item.name }}"
         state: absent
       with_items: "{{ fss_inst }}"
 
@@ -46,7 +58,4 @@
         state: absent
       with_items:
         - '/tmp/authorized_keys'
-        - '/tmp/dnf.conf'
-        - '/tmp/http-proxy.conf'
-        - '/tmp/bash_profile'
 

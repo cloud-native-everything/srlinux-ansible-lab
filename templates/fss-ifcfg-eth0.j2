@@ -1,0 +1,9 @@
+DEVICE=eth0
+ONBOOT=yes
+NM_CONTROLLED=no
+TYPE=Ethernet
+PREFIX={{ item.eth0_prefix }}
+BOOTPROTO=static
+IPADDR={{ item.eth0_ip }}
+GATEWAY={{ item.gateway }}
+MTU=9000

@@ -13,7 +13,7 @@
     - name: Copy fss qcow2 file to image folder for fss instances
       copy:
         remote_src: true
-        src: "{{ fss_qcow2_base_image }}"
+        src: "{{ item.qcow2_image }}"
         dest: "{{ fss_kvm_images_location }}/{{ item.name }}.qcow2"
         owner: qemu
         group: qemu
@@ -35,15 +35,6 @@
       when:
         - 'item.name not in st.stdout'
 
-    - name: Copying fss-mgmt.nmconnection template
-      template:
-        src: fss-mgmt.nmconnection.j2
-        backup: no
-        dest: "/tmp/fss-mgmt.nmconnection.{{ item.name }}"
-      with_items: "{{ fss_inst }}"
-      when:
-        - 'item.name not in st.stdout'
-
     - name: Copying hostname template
       template:
         src: hostname.j2
@@ -53,15 +44,40 @@
       when:
         - 'item.name not in st.stdout'
 
-    - name: Copying  proxy settings files
+    - name: Copying ifcfg-eth0  template
+      template:
+        src: fss-ifcfg-eth0.j2
+        backup: no
+        dest: "/tmp/fss-ifcfg-eth0.{{ item.name }}"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying network template
+      template:
+        src: fss-network.j2
+        backup: no
+        dest: "/tmp/fss-network.{{ item.name }}"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying resolv.conf template
+      template:
+        src: fss-resolv.conf.j2
+        backup: no
+        dest: "/tmp/fss-resolv.conf.{{ item.name }}"
+      with_items: "{{ fss_inst }}"
+      when:
+        - 'item.name not in st.stdout'
+
+    - name: Copying centos settings files
       copy:
         src: '{{ item }}'
         dest: "/tmp/{{ item }}"
         force: no
       with_items:
         - 'bash_profile'
-        - 'http-proxy.conf'
-        - 'dnf.conf'
 
     - name: Store /root/.ssh/id_rsa.pub in var pub_key
       shell: "cat ~/.ssh/id_rsa.pub"
@@ -84,7 +100,7 @@
         - 'item.name not in st.stdout'
 
     - name: Start qemu containers
-      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ fss_qemu_cpu }} -e QEMU_RAM={{ fss_qemu_mem }} pinrojas/qemu:v0.31
+      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v {{ fss_kvm_images_location }}/{{ item.name }}.qcow2:/tmp/image.qcow2  -e QEMU_HDA=/tmp/image.qcow2 -e QEMU_CPU={{ item.qemu_cpu }} -e QEMU_RAM={{ item.qemu_mem }} pinrojas/fss-qemu:v0.31
       with_items: "{{ fss_inst }}"
       when: "'fss' not in fss_containers.stdout"
 

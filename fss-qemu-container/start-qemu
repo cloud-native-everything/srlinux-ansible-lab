@@ -1,0 +1,78 @@
+#!/bin/bash
+set -e
+
+# main available options:
+#   QEMU_CPU=n    (cores)
+#   QEMU_RAM=nnn  (megabytes)
+#   QEMU_HDA      (filename)
+#   QEMU_HDA_SIZE (bytes, suffixes like "G" allowed)
+#   QEMU_NET      ("-nic tap -nic tap")
+#   QEMU_NO_SERIAL=1 (suppress automatic "-serial stdio")
+#   QEMU_NO_VNC=1 (suppress automatic "-vnc ':0'")
+
+hostArch="$(uname -m)"
+qemuArch="${QEMU_ARCH:-$hostArch}"
+qemu="${QEMU_BIN:-qemu-system-$qemuArch}"
+qemuArgs=()
+
+if [ -e /dev/kvm ] && sh -c 'echo -n > /dev/kvm' &> /dev/null; then
+	# https://github.com/tianon/docker-qemu/issues/4
+	qemuArgs+=( -enable-kvm )
+elif [ "$hostArch" = "$qemuArch" ]; then
+	echo >&2
+	echo >&2 'warning: /dev/kvm not found'
+	echo >&2 '  PERFORMANCE WILL SUFFER'
+	echo >&2 '  (hint: docker run --device /dev/kvm ...)'
+	echo >&2
+	sleep 3
+fi
+
+qemuArgs+=( -smp "${QEMU_CPU:-4}" )
+qemuArgs+=( -m "${QEMU_RAM:-4096}" )
+
+if [ -n "${QEMU_HDA:-}" ]; then
+	if [ ! -f "$QEMU_HDA" -o ! -s "$QEMU_HDA" ]; then
+		(
+			set -x
+			qemu-img create -f qcow2 -o preallocation=off "$QEMU_HDA" "${QEMU_HDA_SIZE:-8G}"
+		)
+	fi
+
+	# http://wiki.qemu.org/download/qemu-doc.html#Invocation
+	qemuScsiDevice='virtio-scsi-pci'
+	case "$qemuArch" in
+		arm | riscv64) qemuScsiDevice='virtio-scsi-device' ;;
+	esac
+
+	#qemuArgs+=( -hda "$QEMU_HDA" )
+	#qemuArgs+=( -drive file="$QEMU_HDA",index=2,media=disk,discard=unmap )
+	qemuArgs+=(
+		-drive file="$QEMU_HDA",index=2,media=disk,discard=unmap,detect-zeroes=unmap,if=none,id=hda
+		-device "$qemuScsiDevice"
+		-device scsi-hd,drive=hda
+	)
+fi
+
+
+if [ -z "${QEMU_NET:-}" ]; then
+	qemuArgs+=(
+	-nic tap,mac=52:54:00:12:$((10 + $RANDOM % 89)):$((10 + $RANDOM % 89)) -nic tap,mac=52:54:00:12:$((10 + $RANDOM % 89)):$((10 + $RANDOM % 89))
+	)
+fi
+
+if [ -z "${QEMU_NO_SERIAL:-}" ]; then
+	qemuArgs+=(
+		-serial stdio
+	)
+fi
+
+if [ -z "${QEMU_NO_VNC:-}" ]; then
+	qemuArgs+=(
+		-vnc ':0'
+	)
+fi
+
+qemuArgs+=( "$@" )
+
+set -x
+exec "$qemu" "${qemuArgs[@]}"
