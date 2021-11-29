@@ -29,6 +29,9 @@ Before reboot (fedora34):
 systemctl disable --now firewalld
 systemctl disable --now systemd-resolved
 
+## add nameserver to baremetal (use your local dns ip server)
+sudo sed -i 's/^nameserver=.*$/nameserver=8.8.8.8/' /etc/resolv.conf
+
 ## disable selinux
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=.*$/SELINUX=disabled/' /etc/selinux/config
