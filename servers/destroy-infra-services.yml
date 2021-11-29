@@ -4,6 +4,11 @@
     register: docker_ps
     changed_when: False
 
+  - name: Stop container ntp-server container
+    command: docker stop ntp-server
+    when:
+      - '"ntp-server" in docker_ps.stdout'
+
   - name: Stop container dns-server container
     command: docker stop dns-server
     when:
