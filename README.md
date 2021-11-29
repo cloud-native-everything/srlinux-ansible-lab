@@ -88,7 +88,7 @@ Assuming you are cloning this repo in your home folder: ``` ~/srlinux-ansible-la
 
 ```
 sudo docker build -t srl-lab:0.1 .
-sudo docker run -d -t -i --name srl-ansible -v ~/srlinux-ansible-lab:/srl-lab srl-ansible:0.1
+sudo docker run -d -t -i --name srl-ansible -v ~/srlinux-ansible-lab:/srl-lab srl-lab:0.1
 sudo docker exec -ti srl-ansible bash
 ```
 
