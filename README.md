@@ -80,6 +80,10 @@ cd
 git clone https://github.com/cloud-native-everything/srlinux-ansible-lab
 cd ~/srlinux-ansible-lab
 sudo docker build -t srl-lab:0.1 .
+
+## Instal ssh keys in your baremetal if you dont have them
+ssh-keygen -t rsa
+
 ```
 
 # Install
