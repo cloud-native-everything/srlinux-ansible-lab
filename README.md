@@ -98,7 +98,7 @@ As soon as you are inside te container, you have to create your own ssh keys and
 cd
 ssh-keygen -t rsa
 cp /root/.ssh/* .ssh/. 
-ssh-copy-id root@10.99.99.1
+ssh-copy-id root@10.99.99.15
 ```
 
 Don't forget to modify the hosts inventory file (i.e. servers/hosts )
@@ -181,6 +181,13 @@ This is only informative
 # Running playbook
 
 Now it's time to run the playbook and connect QEMU instances to the SRL device.
+
+Remember to change your inventory file 'servers/hosts'
+
+```
+[baremetals]
+10.99.99.15
+```
 I added a folder inside cfg to manage different configurations in case is required. You just need to point it with cfg_option
 
 ```
