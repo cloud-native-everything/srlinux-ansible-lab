@@ -63,8 +63,8 @@ cd ~/clab-quickstart
 ## guestfish tools
 dnf -y install bridge-utils
 dnf -y install libguestfs libguestfs-tools qemu-kvm libvirt
-system start libvirtd
-system enable --now  libvirtd
+systemctl start libvirtd
+systemctl enable --now  libvirtd
 
 mkdir -p /home/qemu
 chown -R qemu:qemu /home/qemu
