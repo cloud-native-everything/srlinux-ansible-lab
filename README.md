@@ -58,7 +58,7 @@ bash -c "$(curl -sL https://get-clab.srlinux.dev)" -- -v 0.16.1
 mkdir clab-quickstart
 cd ~/clab-quickstart
 
-## copy license.key (you should contact someone from Nokia to get it)
+## copy license.key (you don't need it anymore, just remove it form your topology file)
 
 ## guestfish tools
 dnf -y install bridge-utils
