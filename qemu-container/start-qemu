@@ -60,6 +60,13 @@ if [ -z "${QEMU_NET:-}" ]; then
 	)
 fi
 
+if [ -z "${QEMU_HOST:-}" ]; then
+	qemuArgs+=(
+		-cpu host
+	)
+fi
+
+
 if [ -z "${QEMU_NO_SERIAL:-}" ]; then
 	qemuArgs+=(
 		-serial stdio

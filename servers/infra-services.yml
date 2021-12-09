@@ -19,11 +19,13 @@
       - 'Dockerfile.bind'
     when: 
       - "'bind9' not in docker_images.stdout"
+      - '"yes" not in keep_infra_images'
 
   - name: Build container images with data files
     command: docker build -f /tmp/Dockerfile.bind -t bind9 /tmp
     when: 
       - '"bind9" not in docker_images.stdout'
+      - '"yes" not in keep_infra_images'
 
   - name: check if dns-server was previously created
     command: docker ps --format \'\{\{.Names\}\}\'
@@ -62,11 +64,13 @@
       - 'Dockerfile.squid'
     when:
       - "'squid' not in docker_images.stdout"
+      - '"yes" not in keep_infra_images'
 
   - name: Build container squid image with data files
     command: docker build -f /tmp/Dockerfile.squid -t squid /tmp
     when: 
       - '"squid" not in docker_images.stdout'
+      - '"yes" not in keep_infra_images'
 
   - name: check if squid-server was previously created
     command: docker ps --format \'\{\{.Names\}\}\'

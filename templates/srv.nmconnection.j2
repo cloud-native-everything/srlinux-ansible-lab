@@ -1,12 +1,13 @@
 [connection]
 id=srv
 uuid=76920c82-3726-449e-857b-c9618f3d9da7
-type=ethernet
-interface-name=eth1
-permissions=
+type=vlan
+interface-name=VLAN-10
 
-[ethernet]
-mac-address-blacklist=
+[vlan]
+interface-name=VLAN-10
+parent=eth1
+id=10
 
 [ipv4]
 address1={{ item.eth1_ip }}/{{ item.eth1_prefix }},{{ item.gateway }}

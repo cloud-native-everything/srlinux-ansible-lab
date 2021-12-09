@@ -1,0 +1,32 @@
+name: srl02
+
+topology:
+  kinds:
+    srl:
+      type: ixrd2
+      image: ghcr.io/nokia/srlinux
+    linux:
+      image: pinrojas/net-test:v0.3
+  nodes:
+    leaf1:
+      kind: srl
+    border:
+      kind: srl
+    home1:
+      kind: linux
+    home2:
+      kind: linux
+    hq1:
+      kind: linux
+    hq2:
+      kind: linux
+
+  links:
+    # leaf <-> spine1 connections
+    - endpoints: ["leaf1:e1-1", "border:e1-1"]
+
+    # border <-> cliena connections
+    - endpoints: ["home1:eth1", "border:e1-10"]
+    - endpoints: ["home2:eth1", "border:e1-11"]
+    - endpoints: ["hq1:eth1", "border:e1-12"]
+    - endpoints: ["hq2:eth1", "border:e1-13"]

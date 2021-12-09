@@ -7,8 +7,10 @@
       changed_when: False
 
     - name: Check qemu_containers
-      debug:
-        msg: "qemu containers: {{ qemu_containers.stdout }}"
+      fail:
+        msg: "Some qemu conatiners are still running, destroy before to deploy. qemu containers: {{ qemu_containers.stdout }}"
+      when: 
+        - "'qemu' in qemu_containers.stdout"
 
     - name: Copy qcow2 file to image folder for k8s instances
       copy:
@@ -19,7 +21,9 @@
         group: qemu
         force: no
       with_items: "{{ k8s_inst }}"
-      when: "'qemu' not in qemu_containers.stdout"
+      when: 
+        - "'yes' not in keep_images"
+
 
 # Prepare image to grow root_fs later
 # CAUTION: Having been fully tested yet!
@@ -60,6 +64,8 @@
       command: ls /tmp
       register: st
       changed_when: False
+#      when: 
+#        - "'yes' not in keep_images"
 
     - name: Copying script to hypervisor to remove NetworkManager
       template:
@@ -69,6 +75,7 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+        - "'yes' not in keep_images"
 
     - name: Copying mgmt.nmconnection template
       template: 
@@ -78,6 +85,7 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+        - "'yes' not in keep_images"
 
     - name: Copying srv.nmconnection template
       template: 
@@ -87,6 +95,7 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+        - "'yes' not in keep_images"
 
     - name: Copying hostname template
       template: 
@@ -96,6 +105,7 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+        - "'yes' not in keep_images"
 
     - name: Copying hosts template
       template: 
@@ -105,6 +115,7 @@
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout' 
+        - "'yes' not in keep_images"
 
     - name: Copying  proxy settings files
       copy:
@@ -124,30 +135,38 @@
         - 'metallb-config.yaml'
         - 'hello-app-lb-svc.yaml'
         - 'hello-node-deploy.yaml'
+      when:
+        - "'yes' not in keep_images"
 
     - name: Store /root/.ssh/id_rsa.pub in var pub_key
       shell: "cat ~/.ssh/id_rsa.pub"
       register: pub_key
+      when: 
+        - "'yes' not in keep_images"
 
     - name: Check pub_key
       debug: 
         msg: "Show pub_key: {{ pub_key.stdout }}"
+      when: 
+        - "'yes' not in keep_images"
 
     - name: Copying authorized_keys file to /tmp
       template:
         src: authorized_keys.j2
         backup: no
         dest: /tmp/authorized_keys
+      when: 
+        - "'yes' not in keep_images"
 
     - name: Run the script guestfish-files.sh
       shell: "/tmp/guestfish-files-{{ item.name }}.sh {{ kvm_images_location }}/{{ item.name }}.qcow2"
       with_items: "{{ k8s_inst }}"
       when:
         - 'item.name not in st.stdout'
+        - "'yes' not in keep_images"
 
     - name: Start qemu containers
-      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ qemu_cpu }} -e QEMU_RAM={{ qemu_mem }} pinrojas/qemu:v0.31 
+      command: docker run -ti -d --rm --privileged --device /dev/kvm --name qemu-{{ item.name }} --network none -v /home/qemu/{{ item.name }}.qcow2:/tmp/f34-test.qcow2  -e QEMU_HDA=/tmp/f34-test.qcow2 -e QEMU_CPU={{ qemu_cpu }} -e QEMU_RAM={{ qemu_mem }} -e QEMU_HOST=1 pinrojas/qemu:v0.32 
       with_items: "{{ k8s_inst }}" 
-      when: "'qemu' not in qemu_containers.stdout"
  
 

@@ -31,6 +31,8 @@
         path: "{{ kvm_images_location }}/{{ item.name }}.qcow2"
         state: absent
       with_items: "{{ k8s_inst }}"
+      when:
+        - "'yes' not in keep_images"
 
     - name: DELETE guestfish-files.sh script files k8s instances
       file:

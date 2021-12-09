@@ -43,6 +43,7 @@
     command: docker rmi bind9
     when: 
       - '"bind9" in docker_images.stdout'
+      - '"yes" not in keep_infra_images'
 
   - name: check if squid-server was previously created
     command: docker ps --format \'\{\{.Names\}\}\'
@@ -73,6 +74,7 @@
     command: docker rmi squid
     when:
       - '"squid" in docker_images.stdout'
+      - '"yes" not in keep_infra_images'
  
   - name: Destroy files for dns server
     file:

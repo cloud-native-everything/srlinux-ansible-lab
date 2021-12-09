@@ -195,7 +195,7 @@ Remember to change your inventory file 'servers/hosts'
 I added a folder inside cfg to manage different configurations in case is required. You just need to point it with cfg_option
 
 ```
-ansible-playbook -e cfg_option=srl02-evpn -i servers/hosts playbook-deploy.yml
+ansible-playbook -e cfg_option=tier1 -e keep_images=no  -e keep_infra_images=no -i servers/hosts destroy.yml
 ```
 
 After it finishes, youb have to run other playbook to setup ethernet-1/10 interfaces
@@ -209,7 +209,7 @@ ansible-playbook -e cfg_option=srl02-evpn -i servers/hosts playbook-srl.yml
 # Destroy configuration
 
 ```
-ansible-playbook  -e cfg_option=srl01 -i servers/hosts destroy.yml
+ansible-playbook -e cfg_option=tier1 -e keep_images=no  -e keep_infra_images=no -i servers/hosts destroy.yml
 ```
 
 

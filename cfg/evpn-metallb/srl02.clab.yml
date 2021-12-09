@@ -5,7 +5,6 @@ topology:
     srl:
       type: ixrd2
       image: ghcr.io/nokia/srlinux
-      license: license.key
     linux:
       image: pinrojas/net-test:v0.3
   nodes:
