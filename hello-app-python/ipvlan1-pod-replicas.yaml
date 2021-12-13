@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipvlan1-pod-deploy
+spec:
+  selector:
+    matchLabels:
+      app: ipvlan-app
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: ipvlan-app
+      annotations:
+        k8s.v1.cni.cncf.io/networks: mac-vrf-ipvlan1
+    spec:
+      containers:
+        - name: ipvlan-pod
+          image: pinrojas/net-test:0.31
+          command: ["/usr/bin/python3"]
+          args: ["http_server.py"]
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: HTTP_APP_PORT
+            value: "8080"

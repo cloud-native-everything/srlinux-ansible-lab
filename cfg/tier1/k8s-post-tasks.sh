@@ -1,17 +1,16 @@
 echo "" > ~/.ssh/know_hosts
 for i in {30,20,21}; do ssh -o StrictHostKeyChecking=no root@172.20.20.$i echo > /dev/null ; done
-docker cp ./config-tier1-leaf1-5.js clab-srl02-leaf1:/home/admin/.
-docker exec clab-srl02-leaf1 sr_cli --candidate-mode --commit-at-end -- load file /home/admin/config-tier1-leaf1-5.js
+docker cp ./config-tier1-leaf1-6.js clab-srl02-leaf1:/home/admin/.
+docker exec clab-srl02-leaf1 sr_cli --candidate-mode --commit-at-end -- load file /home/admin/config-tier1-leaf1-6.js
 for i in {30,20,21}; do scp ../../files/nmcli_*_con.sh root@172.20.20.$i:/root/. ; done
 for j in {30,20,21};
 do
 	for i in {20,252,253}; do ssh root@172.20.20.$j /root/nmcli_del_con.sh $i $j ; done 
 done
 
-echo "sleep 3 seconds"
+echo "sleep 15 seconds"
+sleep 15
 
-
-sleep 3
 ssh root@172.20.20.30 kubectl delete pods -l k8s-app=calico-node -n kube-system
 echo "sleep 180 seconds"
 sleep 180

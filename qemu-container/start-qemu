@@ -60,12 +60,6 @@ if [ -z "${QEMU_NET:-}" ]; then
 	)
 fi
 
-if [ -z "${QEMU_HOST:-}" ]; then
-	qemuArgs+=(
-		-cpu host
-	)
-fi
-
 
 if [ -z "${QEMU_NO_SERIAL:-}" ]; then
 	qemuArgs+=(
@@ -79,6 +73,9 @@ if [ -z "${QEMU_NO_VNC:-}" ]; then
 	)
 fi
 
+qemuArgs+=(
+        -cpu host
+)
 qemuArgs+=( "$@" )
 
 set -x
