@@ -1,0 +1,21 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: mac-vrf-ipvlan1
+spec:
+  config: '{
+  "cniVersion": "0.4.0",
+  "name": "mac-vrf-ipvlan1",
+  "plugins": [{
+    "type": "ipvlan",
+    "master": "VLAN-20",
+    "ipam": {
+      "type": "host-local",
+      "subnet": "10.10.1.0/24"
+    }
+  },{
+  "type": "fsc",
+  "subnet": "mac-vrf-ipvlan1",
+  "additional-config": {}
+  }]
+}
