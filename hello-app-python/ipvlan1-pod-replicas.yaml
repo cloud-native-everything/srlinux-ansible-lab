@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ipvlan1-pod-deploy
+  name: ipvlan1-python-pod-deploy
 spec:
   selector:
     matchLabels:
-      app: ipvlan-app
+      app: ipvlan-python-app
   replicas: 4
   template:
     metadata:
       labels:
-        app: ipvlan-app
+        app: ipvlan-python-app
       annotations:
         k8s.v1.cni.cncf.io/networks: mac-vrf-ipvlan1
     spec:
       containers:
-        - name: ipvlan-pod
-          image: pinrojas/net-test:0.31
+        - name: ipvlan-python-pod
+          image: localhost/pinrojas/net-test:0.32
           command: ["/usr/bin/python3"]
           args: ["http_server.py"]
           ports:

@@ -1167,7 +1167,69 @@
   "srl_nokia-interfaces:interface": [
     {
       "name": "ethernet-1/1",
-      "admin-state": "enable"
+      "admin-state": "enable",
+      "srl_nokia-interfaces-vlans:vlan-tagging": true,
+      "subinterface": [
+        {
+          "index": 20,
+          "type": "srl_nokia-interfaces:bridged",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 20
+              }
+            }
+          }
+        },
+        {
+          "index": 251,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 251
+              }
+            }
+          }
+        },
+        {
+          "index": 252,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 252
+              }
+            }
+          }
+        },
+        {
+          "index": 253,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 253
+              }
+            }
+          }
+        },
+        {
+          "index": 254,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 254
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "name": "ethernet-1/10",
@@ -1204,6 +1266,66 @@
               }
             }
           }
+        },
+        {
+          "index": 20,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 20
+              }
+            }
+          }
+        },
+        {
+          "index": 251,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 251
+              }
+            }
+          }
+        },
+        {
+          "index": 252,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 252
+              }
+            }
+          }
+        },
+        {
+          "index": 253,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 253
+              }
+            }
+          }
+        },
+        {
+          "index": 254,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 254
+              }
+            }
+          }
         }
       ]
     },
@@ -1223,6 +1345,66 @@
               }
             }
           }
+        },
+        {
+          "index": 20,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 20
+              }
+            }
+          }
+        },
+        {
+          "index": 251,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 251
+              }
+            }
+          }
+        },
+        {
+          "index": 252,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 252
+              }
+            }
+          }
+        },
+        {
+          "index": 253,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 253
+              }
+            }
+          }
+        },
+        {
+          "index": 254,
+          "type": "srl_nokia-interfaces:bridged",
+          "admin-state": "enable",
+          "srl_nokia-interfaces-vlans:vlan": {
+            "encap": {
+              "single-tagged": {
+                "vlan-id": 254
+              }
+            }
+          }
         }
       ]
     },
@@ -1237,6 +1419,17 @@
             "address": [
               {
                 "ip-prefix": "192.168.101.1/24"
+              }
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "admin-state": "enable",
+          "ipv4": {
+            "address": [
+              {
+                "ip-prefix": "10.10.1.2/24"
               }
             ]
           }
@@ -1498,32 +1691,78 @@
         {
           "name": "irb0.0"
         }
+      ],
+      "protocols": {
+        "srl_nokia-bgp:bgp": {
+          "autonomous-system": 65300,
+          "router-id": "192.168.101.1",
+          "dynamic-neighbors": {
+            "accept": {
+              "match": [
+                {
+                  "prefix": "192.168.101.0/24",
+                  "peer-group": "calico-bgp",
+                  "allowed-peer-as": [
+                    "64512"
+                  ]
+                }
+              ]
+            }
+          },
+          "group": [
+            {
+              "group-name": "calico-bgp",
+              "admin-state": "enable",
+              "export-policy": "export-calico",
+              "import-policy": "import-all",
+              "timers": {
+                "connect-retry": 120,
+                "hold-time": 90,
+                "minimum-advertisement-interval": 1
+              },
+              "transport": {
+                "local-address": "192.168.101.1"
+              }
+            }
+          ],
+          "ipv4-unicast": {
+            "multipath": {
+              "allow-multiple-as": true,
+              "max-paths-level-1": 8,
+              "max-paths-level-2": 8
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ipvrf-20",
+      "type": "srl_nokia-network-instance:ip-vrf",
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "irb0.1"
+        }
       ]
-    },
-    {
-      "name": "ipvlan-252",
-      "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable"
-    },
-    {
-      "name": "ipvlan-253",
-      "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable"
     },
     {
       "name": "mac-vrf-ipvlan1",
       "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable"
-    },
-    {
-      "name": "mac-vrf-sriov1",
-      "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable"
-    },
-    {
-      "name": "mac-vrf-sriov2",
-      "type": "srl_nokia-network-instance:mac-vrf",
-      "admin-state": "enable"
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "ethernet-1/1.20"
+        },
+        {
+          "name": "ethernet-1/11.20"
+        },
+        {
+          "name": "ethernet-1/12.20"
+        },
+        {
+          "name": "irb0.1"
+        }
+      ]
     },
     {
       "name": "mac-vrf1",
@@ -1545,6 +1784,70 @@
       ]
     },
     {
+      "name": "macvrf-251",
+      "type": "srl_nokia-network-instance:mac-vrf",
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "ethernet-1/1.251"
+        },
+        {
+          "name": "ethernet-1/11.251"
+        },
+        {
+          "name": "ethernet-1/12.251"
+        }
+      ]
+    },
+    {
+      "name": "macvrf-252",
+      "type": "srl_nokia-network-instance:mac-vrf",
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "ethernet-1/1.252"
+        },
+        {
+          "name": "ethernet-1/11.252"
+        },
+        {
+          "name": "ethernet-1/12.252"
+        }
+      ]
+    },
+    {
+      "name": "macvrf-253",
+      "type": "srl_nokia-network-instance:mac-vrf",
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "ethernet-1/1.253"
+        },
+        {
+          "name": "ethernet-1/11.253"
+        },
+        {
+          "name": "ethernet-1/12.253"
+        }
+      ]
+    },
+    {
+      "name": "macvrf-254",
+      "type": "srl_nokia-network-instance:mac-vrf",
+      "admin-state": "enable",
+      "interface": [
+        {
+          "name": "ethernet-1/1.254"
+        },
+        {
+          "name": "ethernet-1/11.254"
+        },
+        {
+          "name": "ethernet-1/12.254"
+        }
+      ]
+    },
+    {
       "name": "mgmt",
       "type": "srl_nokia-network-instance:ip-vrf",
       "admin-state": "enable",
@@ -1562,5 +1865,86 @@
         }
       }
     }
-  ]
+  ],
+  "srl_nokia-routing-policy:routing-policy": {
+    "prefix-set": [
+      {
+        "name": "calico-network-10.96",
+        "prefix": [
+          {
+            "ip-prefix": "10.96.0.0/12",
+            "mask-length-range": "12..32"
+          }
+        ]
+      },
+      {
+        "name": "calico-network-172",
+        "prefix": [
+          {
+            "ip-prefix": "172.0.0.0/8",
+            "mask-length-range": "8..32"
+          }
+        ]
+      },
+      {
+        "name": "calico-network-192-168",
+        "prefix": [
+          {
+            "ip-prefix": "192.168.0.0/16",
+            "mask-length-range": "16..32"
+          }
+        ]
+      }
+    ],
+    "policy": [
+      {
+        "name": "export-all",
+        "default-action": {
+          "accept": {
+            
+          }
+        }
+      },
+      {
+        "name": "export-calico",
+        "default-action": {
+          "reject": {
+            
+          }
+        },
+        "statement": [
+          {
+            "sequence-id": 10,
+            "match": {
+              "prefix-set": "calico-network-172"
+            },
+            "action": {
+              "accept": {
+                
+              }
+            }
+          },
+          {
+            "sequence-id": 30,
+            "match": {
+              "prefix-set": "calico-network-10.96"
+            },
+            "action": {
+              "accept": {
+                
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "import-all",
+        "default-action": {
+          "accept": {
+            
+          }
+        }
+      }
+    ]
+  }
 }
